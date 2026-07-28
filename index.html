@@ -439,9 +439,54 @@ td strong{color:var(--txt);font-weight:600}
 .warnbar.show{display:flex}
 
 /* ============================================================
-   RESPONSIVO
+   SINCRONIZAÇÃO
    ============================================================ */
-@media (max-width:1100px){ .g4{grid-template-columns:repeat(2,minmax(0,1fr))} .g3{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.sync-chip{
+  display:inline-flex;align-items:center;gap:7px;
+  border:1px solid var(--line);border-radius:20px;padding:6px 12px 6px 10px;
+  font-size:11px;color:var(--txt-2);background:var(--card);
+  transition:all .18s var(--ease);
+}
+.sync-chip:hover{border-color:var(--line-strong);color:var(--txt)}
+.sync-chip .mono{font-size:11px;letter-spacing:.02em}
+.sync-dot{width:8px;height:8px;border-radius:50%;flex:0 0 8px;background:var(--txt-3);transition:all .3s var(--ease)}
+.sync-dot.pulse{animation:syncpulse 1.1s ease-in-out infinite}
+@keyframes syncpulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+.modal-scrim{
+  position:fixed;inset:0;z-index:90;display:none;place-items:center;padding:20px;
+  background:rgba(10,12,20,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.modal-scrim.on{display:grid;animation:viewIn .25s var(--ease)}
+.modal{
+  width:100%;max-width:440px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-l);box-shadow:var(--shadow-lg);padding:22px;
+}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.modal-head h3{font-size:17px}
+.profile-btn{
+  display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  border:1px solid var(--line);border-radius:var(--r-m);padding:14px 16px;margin-bottom:10px;
+  background:var(--card);transition:all .18s var(--ease);
+}
+.profile-btn:hover{border-color:var(--accent);background:var(--accent-soft)}
+.profile-btn.on{border-color:var(--accent);background:var(--accent-soft)}
+.profile-ava{width:38px;height:38px;border-radius:11px;flex:0 0 38px;display:grid;place-items:center;
+  font-family:var(--mono);font-weight:700;color:#fff;font-size:15px}
+.profile-btn strong{display:block;font-size:14px;color:var(--txt)}
+.profile-btn span{font-size:12px;color:var(--txt-3)}
+.sync-note{font-size:11.5px;color:var(--txt-3);line-height:1.5;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.sync-err{font-size:11.5px;color:var(--txt-2);line-height:1.55;margin-top:12px;padding:12px 14px;
+  border-radius:10px;background:color-mix(in srgb,var(--crit) 9%,transparent);
+  border:1px solid color-mix(in srgb,var(--crit) 28%,transparent);word-break:break-word}
+.sync-err strong{color:var(--crit)}
+
+@media (max-width:680px){
+  #syncLabel{display:none}
+  .sync-chip{padding:8px}
+}
+
+
 @media (max-width:900px){
   .sidebar{position:fixed;left:0;top:0;z-index:60;transform:translateX(-100%);transition:transform .3s var(--ease);background:var(--bg)}
   .sidebar.open{transform:none;box-shadow:var(--shadow-lg)}
@@ -566,6 +611,10 @@ if(s&&s.cfg&&s.cfg.theme==='dark')document.documentElement.setAttribute('data-th
         <kbd>/</kbd>
       </div>
       <div class="topbar-actions">
+        <button class="sync-chip" id="syncChip" title="Configurar sincronização na nuvem">
+          <span class="sync-dot" id="syncDot"></span>
+          <span id="syncLabel" class="mono">Nuvem desligada</span>
+        </button>
         <span class="mono" id="topPct" style="font-size:12px;color:var(--txt-3)"></span>
         <button class="btn icon" id="btnTheme" title="Alternar entre tema claro e escuro" aria-label="Alternar tema"></button>
         <button class="btn primary" id="btnNext">Próxima ação</button>
@@ -582,6 +631,19 @@ if(s&&s.cfg&&s.cfg.theme==='dark')document.documentElement.setAttribute('data-th
   </main>
 </div>
 <div class="toast" id="toast"></div>
+
+<div class="modal-scrim" id="syncModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Sincronização na nuvem</h3>
+      <button class="btn icon" id="syncClose" aria-label="Fechar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <p class="dim" style="font-size:13px;margin-bottom:16px">Escolha o seu perfil. Cada pessoa mantém o próprio progresso, sincronizado entre celular e computador. Vocês podem comparar, mas não sobrescrevem um ao outro.</p>
+    <div id="syncBody"></div>
+  </div>
+</div>
 
 <script>
 /* ============================================================
@@ -2752,6 +2814,155 @@ const S = Store.read();
 if(!canPersist) document.getElementById('warnbar').classList.add('show');
 
 /* ============================================================
+   SINCRONIZAÇÃO NA NUVEM (Supabase)
+   ============================================================ */
+const Sync = {
+  url:   'https://wuenbctsyitvwibvfmls.supabase.co/rest/v1/',
+  key:   'sb_publishable_bm-0wpMbEMmQiGK0ZXzg9w_B__-NzlM',
+  perfil: null,        // 'voce' | 'parceira' — escolhido pelo usuário
+  on: false,           // sincronização ligada?
+  status: 'off',       // off | ok | saving | error | pulling
+  timer: null,
+  lastPush: 0,
+
+  headers(){
+    return {
+      'apikey': this.key,
+      'Authorization': 'Bearer ' + this.key,
+      'Content-Type': 'application/json'
+    };
+  },
+
+  init(){
+    this.perfil = S.cfg.perfil || null;
+    this.on = !!S.cfg.sync && !!this.perfil;
+    if(this.on){ this.setStatus('pulling'); this.pull(true); }
+    else this.setStatus('off');
+  },
+
+  setStatus(st){
+    this.status = st;
+    const el = document.getElementById('syncDot');
+    if(!el) return;
+    const map = {
+      off:    ['var(--txt-3)','Nuvem desligada'],
+      ok:     ['var(--ok)','Sincronizado · '+(this.perfil==='parceira'?'Parceira':'Você')],
+      saving: ['var(--warn)','Salvando na nuvem…'],
+      pulling:['var(--accent)','Baixando da nuvem…'],
+      error:  ['var(--crit)','Erro de conexão — trabalhando offline']
+    };
+    const [cor, txt] = map[st] || map.off;
+    el.style.background = cor;
+    el.style.boxShadow = st==='saving'||st==='pulling' ? '0 0 0 4px '+cor.replace(')',', .18)').replace('var(--','rgba(') : 'none';
+    const lbl = document.getElementById('syncLabel');
+    if(lbl) lbl.textContent = txt;
+    el.className = (st==='saving'||st==='pulling') ? 'sync-dot pulse' : 'sync-dot';
+  },
+
+  // baixa o estado da nuvem. Se firstLoad, mescla com o que já existe localmente.
+  async pull(firstLoad){
+    if(!this.on) return;
+    this.setStatus('pulling');
+    try{
+      const r = await fetch(this.url + 'progresso?perfil=eq.' + encodeURIComponent(this.perfil) + '&select=dados', {headers:this.headers()});
+      if(!r.ok){ throw await this.err(r); }
+      const rows = await r.json();
+      if(rows.length && rows[0].dados){
+        const remoto = rows[0].dados;
+        // a nuvem é a fonte da verdade ao abrir; preserva só o tema/perfil local
+        const cfgLocal = {perfil:S.cfg.perfil, sync:S.cfg.sync, theme:remoto.cfg?.theme || S.cfg.theme};
+        memoryStore.ck  = remoto.ck  || {};
+        memoryStore.kpi = remoto.kpi || {};
+        memoryStore.cfg = Object.assign({}, remoto.cfg, cfgLocal);
+        memoryStore.log = remoto.log || [];
+        Object.assign(S, memoryStore);
+        Store.save();
+        if(typeof renderAll === 'function'){ applyTheme(); renderAll(); }
+      } else if(firstLoad){
+        // primeira vez deste perfil: envia o que já existe localmente
+        await this.push(true);
+      }
+      this.lastError = null;
+      this.setStatus('ok');
+    }catch(e){
+      this.lastError = e.message || String(e);
+      this.setStatus('error');
+      console.error('[Sync] falha ao baixar:', this.lastError);
+    }
+  },
+
+  // agenda envio com atraso, para não disparar a cada clique
+  queue(){
+    if(!this.on) return;
+    clearTimeout(this.timer);
+    this.setStatus('saving');
+    this.timer = setTimeout(()=> this.push(), 1200);
+  },
+
+  async push(immediate){
+    if(!this.on) return;
+    if(!immediate) this.setStatus('saving');
+    const dados = {ck:S.ck, kpi:S.kpi, cfg:S.cfg, log:S.log};
+    const ts = new Date().toISOString();
+    try{
+      // 1) tenta ATUALIZAR a linha existente (PATCH é previsível e não depende de constraint)
+      let r = await fetch(this.url + 'progresso?perfil=eq.' + encodeURIComponent(this.perfil), {
+        method:'PATCH',
+        headers:Object.assign({'Prefer':'return=representation'}, this.headers()),
+        body: JSON.stringify({dados:dados, atualizado_em:ts})
+      });
+      if(!r.ok){ throw await this.err(r); }
+      let rows = await r.json();
+
+      // 2) se nenhuma linha foi atualizada, a linha ainda não existe -> INSERE
+      if(!rows || rows.length === 0){
+        r = await fetch(this.url + 'progresso', {
+          method:'POST',
+          headers:Object.assign({'Prefer':'return=representation'}, this.headers()),
+          body: JSON.stringify({perfil:this.perfil, dados:dados, atualizado_em:ts})
+        });
+        if(!r.ok){ throw await this.err(r); }
+      }
+      this.lastError = null;
+      this.setStatus('ok');
+    }catch(e){
+      this.lastError = e.message || String(e);
+      this.setStatus('error');
+      console.error('[Sync] falha ao gravar:', this.lastError);
+    }
+  },
+
+  // extrai a mensagem de erro do PostgREST para diagnóstico
+  async err(r){
+    let msg = 'HTTP ' + r.status;
+    try{ const b = await r.json(); if(b && (b.message||b.hint)) msg += ' — ' + (b.message||'') + (b.hint? ' ('+b.hint+')':''); }catch(_){}
+    return new Error(msg);
+  },
+
+  async enable(perfil){
+    this.perfil = perfil;
+    this.on = true;
+    S.cfg.perfil = perfil;
+    S.cfg.sync = true;
+    Store.save();
+    await this.pull(true);
+  },
+
+  disable(){
+    this.on = false;
+    S.cfg.sync = false;
+    Store.save();
+    this.setStatus('off');
+  }
+};
+
+// intercepta o save local para também enfileirar o envio à nuvem
+const _localSave = Store.save.bind(Store);
+Store.save = function(){ _localSave(); if(Sync.on) Sync.queue(); };
+window.Sync = Sync;
+
+
+/* ============================================================
    HELPERS
    ============================================================ */
 const $  = (s,el)=> (el||document).querySelector(s);
@@ -3367,8 +3578,49 @@ function renderPlaybook(){
 }
 
 /* ============================================================
-   SIDEBAR / NAVEGAÇÃO
+   MODAL DE SINCRONIZAÇÃO
    ============================================================ */
+function renderSyncModal(){
+  const body = document.getElementById('syncBody');
+  const perfis = [
+    {id:'voce', nome:'Você', desc:'Sites, tráfego, estratégia, comercial', cor:'var(--f1)', ini:'V'},
+    {id:'parceira', nome:'Parceira', desc:'UGC, criativos, conteúdo', cor:'var(--f5)', ini:'P'}
+  ];
+  let html = perfis.map(p=>
+    '<button class="profile-btn '+(Sync.perfil===p.id&&Sync.on?'on':'')+'" data-perfil="'+p.id+'">'
+    + '<span class="profile-ava" style="background:'+p.cor+'">'+p.ini+'</span>'
+    + '<span style="flex:1"><strong>'+p.nome+'</strong><span>'+p.desc+'</span></span>'
+    + (Sync.perfil===p.id&&Sync.on ? '<span class="mono" style="font-size:10px;color:var(--ok)">ATIVO</span>' : '')
+    + '</button>'
+  ).join('');
+
+  if(Sync.on){
+    html += '<button class="btn" id="syncTest" style="width:100%;justify-content:center;margin-top:6px">Testar conexão agora</button>';
+    html += '<button class="btn" id="syncOff" style="width:100%;justify-content:center;margin-top:8px;color:var(--crit)">Desligar sincronização (voltar a salvar só neste aparelho)</button>';
+  }
+
+  if(Sync.lastError){
+    html += '<div class="sync-err">'
+      + '<strong>Último erro de conexão:</strong><br>'
+      + esc(Sync.lastError)
+      + '<br><br>Se aparecer algo sobre <em>relation "progresso" does not exist</em>, a tabela não foi criada. '
+      + 'Se aparecer <em>permission denied</em> ou <em>row-level security</em>, as permissões (policies) não foram aplicadas. '
+      + 'Se aparecer <em>401</em> ou <em>Invalid API key</em>, a chave precisa ser trocada pela chave <em>anon public</em> (formato eyJ…) em Settings → API.'
+      + '</div>';
+  }
+
+  html += '<div class="sync-note">'
+    + 'O progresso fica guardado em um banco de dados na nuvem, ligado à sua conta Supabase. '
+    + 'Ao ligar, este aparelho baixa o que estiver salvo online. Depois, cada tarefa marcada é enviada automaticamente. '
+    + 'Como não há senha, mantenha aqui só o roadmap — nada de dados sensíveis de clientes.'
+    + '</div>';
+  body.innerHTML = html;
+}
+
+function openSyncModal(){ renderSyncModal(); document.getElementById('syncModal').classList.add('on'); }
+function closeSyncModal(){ document.getElementById('syncModal').classList.remove('on'); }
+
+
 function renderSidebar(){
   const g = progressOf(TASKS);
   $('#sideVal').innerHTML = g.pct + '<small>%</small>';
@@ -3491,6 +3743,32 @@ document.addEventListener('click', e=>{
   const head = e.target.closest('.t-head');
   if(head){ head.parentElement.classList.toggle('open'); return; }
 
+  if(e.target.closest('#syncChip')){ openSyncModal(); return; }
+  if(e.target.closest('#syncClose') || e.target.id === 'syncModal'){ closeSyncModal(); return; }
+
+  const perfilBtn = e.target.closest('[data-perfil]');
+  if(perfilBtn){
+    const p = perfilBtn.dataset.perfil;
+    toast('Ligando sincronização…');
+    Sync.enable(p).then(()=>{
+      renderSyncModal();
+      toast('Sincronização ativa · ' + (p==='parceira'?'Parceira':'Você'));
+      setTimeout(closeSyncModal, 700);
+    });
+    return;
+  }
+  if(e.target.closest('#syncTest')){
+    toast('Testando conexão…');
+    Sync.pull(false).then(()=>{
+      renderSyncModal();
+      toast(Sync.status === 'ok' ? 'Conexão OK — sincronizado' : 'Falha na conexão — veja o detalhe');
+    });
+    return;
+  }
+  if(e.target.closest('#syncOff')){
+    Sync.disable(); renderSyncModal(); toast('Sincronização desligada'); return;
+  }
+
   if(e.target.closest('#btnTheme')){
     S.cfg.theme = (S.cfg.theme === 'dark') ? 'light' : 'dark';
     Store.save(); applyTheme();
@@ -3574,6 +3852,7 @@ $('#btnReset').addEventListener('click', ()=>{
 /* boot */
 applyTheme();
 renderAll();
+Sync.init();
 </script>
 </body>
 </html>
