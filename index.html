@@ -3,23 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Boop — Agência de marketing em Curitiba | Site e anúncios</title>
+<title>Boop — Marketing em Curitiba | Site e anúncios</title>
 <meta name="description" content="A Boop cuida do site, dos anúncios e do conteúdo da sua empresa. Um cliente por vez e um relatório por mês com o número que interessa: quanto entrou.">
 <link rel="canonical" href="https://deumboop.com.br/">
 <meta name="robots" content="index, follow">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
-<meta property="og:site_name" content="Boop Agência">
-<meta property="og:title" content="Boop — Agência de marketing em Curitiba | Site e anúncios">
+<meta property="og:site_name" content="Boop">
+<meta property="og:title" content="Boop — Marketing em Curitiba | Site e anúncios">
 <meta property="og:description" content="A Boop cuida do site, dos anúncios e do conteúdo da sua empresa. Um cliente por vez e um relatório por mês com o número que interessa: quanto entrou.">
 <meta property="og:url" content="https://deumboop.com.br/">
 <meta property="og:image" content="https://deumboop.com.br/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Boop Agência — marketing para empresas em Curitiba">
+<meta property="og:image:alt" content="Boop — marketing para empresas em Curitiba">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Boop — Agência de marketing em Curitiba | Site e anúncios">
+<meta name="twitter:title" content="Boop — Marketing em Curitiba | Site e anúncios">
 <meta name="twitter:description" content="A Boop cuida do site, dos anúncios e do conteúdo da sua empresa. Um cliente por vez e um relatório por mês com o número que interessa: quanto entrou.">
 <meta name="twitter:image" content="https://deumboop.com.br/og.jpg">
 
@@ -27,7 +27,7 @@
 {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  "name": "Boop Agência",
+  "name": "Boop",
   "alternateName": "Boop",
   "url": "https://deumboop.com.br/",
   "image": "https://deumboop.com.br/og.jpg",
@@ -175,7 +175,7 @@ header{
   position:fixed;top:0;left:0;right:0;z-index:80;
   display:flex;align-items:center;justify-content:space-between;
   gap:24px;
-  padding:13px calc(var(--rail) + 14px);
+  padding:13px calc(var(--rail) + var(--pad));
   background:var(--off-white);
   border-bottom:1px solid rgba(10,23,64,.14);
 }
@@ -241,6 +241,14 @@ body.menu-aberto{overflow:hidden}
 }
 .menu-mobile nav a.ativo{color:var(--ciano-boop)}
 .menu-mobile .menu-cta{margin-top:30px;align-self:flex-start}
+/* ---------- botão fechar menu mobile ---------- */
+.menu-fechar{
+  position:absolute;top:22px;right:calc(var(--pad) + 4px);
+  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  color:var(--off-white);opacity:.7;transition:opacity .2s ease;
+  background:none;border:none;cursor:pointer;
+}
+.menu-fechar:hover,.menu-fechar:focus-visible{opacity:1}
 .menu-mobile .menu-rodape{
   display:flex;justify-content:space-between;align-items:center;
   margin-top:30px;padding-top:18px;border-top:1px solid rgba(242,239,233,.14);
@@ -273,6 +281,9 @@ body.menu-aberto{overflow:hidden}
 .btn .seta{transition:transform .38s cubic-bezier(.7,0,.2,1)}
 .btn:hover .seta{transform:translateX(6px)}
 .btn-claro{background:var(--off-white);color:var(--azul-tinta)}
+.btn-eletrico{background:var(--ciano-boop);color:var(--azul-tinta)}
+.btn-eletrico::before{background:var(--azul-tinta)}
+.btn-eletrico:hover span,.btn-eletrico:focus-visible span{color:var(--ciano-boop)}
 
 /* ============================================================
    1. HERO
@@ -617,21 +628,20 @@ footer{background:var(--preto);color:var(--off-white);
   <div class="rail-inner label">
     <span>Curitiba · PR</span>
     <span class="fio"></span>
-    <span>Boop Agência</span>
+    <span>Boop</span>
   </div>
 </div>
 
 <!-- ===== HEADER ===== -->
 <header>
-  <a class="logo-header" href="#topo" aria-label="Boop Agência, ir para o topo">
-    <svg class="marca escuro-sobre-claro" data-marca viewBox="0 40 254 128" role="img" aria-label="boop agência">
+  <a class="logo-header" href="#topo" aria-label="Boop, ir para o topo">
+    <svg class="marca escuro-sobre-claro" data-marca viewBox="0 40 254 128" role="img" aria-label="boop">
       <g class="topete"><path d="M104.5 56.1644L102 65.2877C102 65.2877 108.5 64.7808 115.5 68.3288C122.5 71.8767 129 81 129 81C129 81 135.5 72.3836 138.5 70.3562C141.5 68.3288 152 65.2877 152 65.2877V58.1918L144.5 62.7534L148.5 52.6164L141 58.1918V52.6164L135 58.1918L133 44L119.5 60.726L115.5 48.5616L109 60.726L104.5 56.1644Z" fill="currentColor"/></g>
       <g class="olho" data-olho="esq"><path d="M133 96C133 113.673 118.897 128 101.5 128C84.103 128 70 113.673 70 96C70 78.3269 84.103 64 101.5 64C118.897 64 133 78.3269 133 96ZM87.01 96C87.01 104.13 93.4974 110.72 101.5 110.72C109.503 110.72 115.99 104.13 115.99 96C115.99 87.8704 109.503 81.28 101.5 81.28C93.4974 81.28 87.01 87.8704 87.01 96Z" fill="#FFFDF5"/><g class="globo"><path d="M113.5 96C113.5 102.627 108.127 108 101.5 108C94.8726 108 89.5 102.627 89.5 96C89.5 89.3726 94.8726 84 101.5 84C108.127 84 113.5 89.3726 113.5 96ZM95.98 96C95.98 99.0486 98.4514 101.52 101.5 101.52C104.549 101.52 107.02 99.0486 107.02 96C107.02 92.9514 104.549 90.48 101.5 90.48C98.4514 90.48 95.98 92.9514 95.98 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="104.5" cy="95" r="7" fill="#1A1A1A"/><circle cx="102" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g><path d="M133 96C133 113.673 118.897 128 101.5 128C84.103 128 70 113.673 70 96C70 78.3269 84.103 64 101.5 64C118.897 64 133 78.3269 133 96ZM87.01 96C87.01 104.13 93.4974 110.72 101.5 110.72C109.503 110.72 115.99 104.13 115.99 96C115.99 87.8704 109.503 81.28 101.5 81.28C93.4974 81.28 87.01 87.8704 87.01 96Z" fill="url(#boop-g0)"/><g class="globo"><path d="M113.5 96C113.5 102.627 108.127 108 101.5 108C94.8726 108 89.5 102.627 89.5 96C89.5 89.3726 94.8726 84 101.5 84C108.127 84 113.5 89.3726 113.5 96ZM95.98 96C95.98 99.0486 98.4514 101.52 101.5 101.52C104.549 101.52 107.02 99.0486 107.02 96C107.02 92.9514 104.549 90.48 101.5 90.48C98.4514 90.48 95.98 92.9514 95.98 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="104.5" cy="95" r="7" fill="#1A1A1A"/><circle cx="102" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g></g>
       <g class="olho" data-olho="dir"><path d="M187 96C187 113.673 173.121 128 156 128C138.879 128 125 113.673 125 96C125 78.3269 138.879 64 156 64C173.121 64 187 78.3269 187 96ZM141.74 96C141.74 104.13 148.124 110.72 156 110.72C163.876 110.72 170.26 104.13 170.26 96C170.26 87.8704 163.876 81.28 156 81.28C148.124 81.28 141.74 87.8704 141.74 96Z" fill="url(#boop-g1)"/><g class="globo"><path d="M168 96C168 102.627 162.627 108 156 108C149.373 108 144 102.627 144 96C144 89.3726 149.373 84 156 84C162.627 84 168 89.3726 168 96ZM150.48 96C150.48 99.0486 152.951 101.52 156 101.52C159.049 101.52 161.52 99.0486 161.52 96C161.52 92.9514 159.049 90.48 156 90.48C152.951 90.48 150.48 92.9514 150.48 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="159" cy="95" r="7" fill="#1A1A1A"/><circle cx="156.5" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g><path d="M187 96C187 113.673 173.121 128 156 128C138.879 128 125 113.673 125 96C125 78.3269 138.879 64 156 64C173.121 64 187 78.3269 187 96ZM141.74 96C141.74 104.13 148.124 110.72 156 110.72C163.876 110.72 170.26 104.13 170.26 96C170.26 87.8704 163.876 81.28 156 81.28C148.124 81.28 141.74 87.8704 141.74 96Z" fill="url(#boop-g2)"/><g class="globo"><path d="M168 96C168 102.627 162.627 108 156 108C149.373 108 144 102.627 144 96C144 89.3726 149.373 84 156 84C162.627 84 168 89.3726 168 96ZM150.48 96C150.48 99.0486 152.951 101.52 156 101.52C159.049 101.52 161.52 99.0486 161.52 96C161.52 92.9514 159.049 90.48 156 90.48C152.951 90.48 150.48 92.9514 150.48 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="159" cy="95" r="7" fill="#1A1A1A"/><circle cx="156.5" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g></g>
       <g class="triangulo"><path d="M156 70.6856C161.562 75.494 165.074 76.5856 172 75.7387L171.636 70.054L171.273 64.3693L170.909 58.6847L170.545 53L166.909 57.4214L163.273 61.8428L159.636 66.2642L156 70.6856Z" fill="url(#boop-g3)"/></g>
       <g class="letra"><path d="M202.24 74.04C204.08 70.92 206.68 68.44 210.04 66.6C213.4 64.76 217.36 63.84 221.92 63.84C227.28 63.84 232.12 65.24 236.44 68.04C240.84 70.84 244.28 74.84 246.76 80.04C249.32 85.24 250.6 91.32 250.6 98.28C250.6 105.24 249.32 111.36 246.76 116.64C244.28 121.84 240.84 125.84 236.44 128.64C232.12 131.44 227.28 132.84 221.92 132.84C217.36 132.84 213.4 131.92 210.04 130.08C206.76 128.24 204.16 125.76 202.24 122.64V164.16H178.72V64.68H202.24V74.04ZM226.72 98.28C226.72 93.88 225.52 90.48 223.12 88.08C220.8 85.6 217.92 84.36 214.48 84.36C211.04 84.36 208.12 85.6 205.72 88.08C203.4 90.56 202.24 93.96 202.24 98.28C202.24 102.68 203.4 106.12 205.72 108.6C208.12 111.08 211.04 112.32 214.48 112.32C217.92 112.32 220.8 111.08 223.12 108.6C225.52 106.04 226.72 102.6 226.72 98.28Z" fill="currentColor"/><path d="M30.24 74.04C32.08 70.84 34.68 68.36 38.04 66.6C41.4 64.76 45.36 63.84 49.92 63.84C55.28 63.84 60.12 65.2399 64.44 68.0399C68.84 70.8399 72.28 74.8399 74.76 80.0399C77.32 85.2399 78.6 91.3199 78.6 98.2799C78.6 105.24 77.32 111.36 74.76 116.64C72.28 121.84 68.84 125.84 64.44 128.64C60.12 131.44 55.28 132.84 49.92 132.84C45.36 132.84 41.4 131.96 38.04 130.2C34.68 128.36 32.08 125.84 30.24 122.64V132H6.71997V43.2H30.24V74.04ZM54.72 98.2799C54.72 93.8799 53.52 90.4799 51.12 88.0799C48.8 85.5999 45.92 84.36 42.48 84.36C39.04 84.36 36.12 85.5999 33.72 88.0799C31.4 90.56 30.24 93.9599 30.24 98.2799C30.24 102.68 31.4 106.12 33.72 108.6C36.12 111.08 39.04 112.32 42.48 112.32C45.92 112.32 48.8 111.08 51.12 108.6C53.52 106.04 54.72 102.6 54.72 98.2799Z" fill="currentColor"/></g>
     </svg>
-    <span class="assinatura">Agência</span>
   </a>
   <nav>
     <a href="/" class="label ativo" aria-current="page">Home</a>
@@ -648,6 +658,9 @@ footer{background:var(--preto);color:var(--off-white);
 
 <!-- ===== MENU MOBILE ===== -->
 <div class="menu-mobile" id="menuMobile">
+  <button class="menu-fechar" id="menuFechar" type="button" aria-label="Fechar menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><line x1="1" y1="1" x2="21" y2="21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><line x1="21" y1="1" x2="1" y2="21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+  </button>
   <nav>
     <a href="/" class="ativo" aria-current="page">Home</a>
     <a href="/como-trabalhamos.html">Como Trabalhamos</a>
@@ -667,7 +680,7 @@ footer{background:var(--preto);color:var(--off-white);
 <!-- ===== 1. HERO ===== -->
 <div class="hero-wrap grao" data-claro>
   <section class="hero">
-    <div class="hero-eyebrow fade-up d1"><span class="fio"></span><span class="label">Agência de marketing · Curitiba</span></div>
+    <div class="hero-eyebrow fade-up d1"><span class="fio"></span><span class="label">Curitiba · PR</span></div>
     <h1 class="display">
       <span class="reveal-linha"><span data-fit>Dê um</span></span>
       <span class="reveal-linha linha-marca"><span>
@@ -940,14 +953,13 @@ footer{background:var(--preto);color:var(--off-white);
 <footer id="contato">
   <div class="footer-topo">
     <div>
-      <svg class="marca claro-sobre-escuro" data-marca data-dormindo viewBox="0 40 254 128" role="img" aria-label="boop agência">
+      <svg class="marca claro-sobre-escuro" data-marca data-dormindo viewBox="0 40 254 128" role="img" aria-label="boop">
       <g class="topete"><path d="M104.5 56.1644L102 65.2877C102 65.2877 108.5 64.7808 115.5 68.3288C122.5 71.8767 129 81 129 81C129 81 135.5 72.3836 138.5 70.3562C141.5 68.3288 152 65.2877 152 65.2877V58.1918L144.5 62.7534L148.5 52.6164L141 58.1918V52.6164L135 58.1918L133 44L119.5 60.726L115.5 48.5616L109 60.726L104.5 56.1644Z" fill="currentColor"/></g>
       <g class="olho" data-olho="esq"><path d="M133 96C133 113.673 118.897 128 101.5 128C84.103 128 70 113.673 70 96C70 78.3269 84.103 64 101.5 64C118.897 64 133 78.3269 133 96ZM87.01 96C87.01 104.13 93.4974 110.72 101.5 110.72C109.503 110.72 115.99 104.13 115.99 96C115.99 87.8704 109.503 81.28 101.5 81.28C93.4974 81.28 87.01 87.8704 87.01 96Z" fill="#FFFDF5"/><g class="globo"><path d="M113.5 96C113.5 102.627 108.127 108 101.5 108C94.8726 108 89.5 102.627 89.5 96C89.5 89.3726 94.8726 84 101.5 84C108.127 84 113.5 89.3726 113.5 96ZM95.98 96C95.98 99.0486 98.4514 101.52 101.5 101.52C104.549 101.52 107.02 99.0486 107.02 96C107.02 92.9514 104.549 90.48 101.5 90.48C98.4514 90.48 95.98 92.9514 95.98 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="104.5" cy="95" r="7" fill="#1A1A1A"/><circle cx="102" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g><path d="M133 96C133 113.673 118.897 128 101.5 128C84.103 128 70 113.673 70 96C70 78.3269 84.103 64 101.5 64C118.897 64 133 78.3269 133 96ZM87.01 96C87.01 104.13 93.4974 110.72 101.5 110.72C109.503 110.72 115.99 104.13 115.99 96C115.99 87.8704 109.503 81.28 101.5 81.28C93.4974 81.28 87.01 87.8704 87.01 96Z" fill="url(#boop-g0)"/><g class="globo"><path d="M113.5 96C113.5 102.627 108.127 108 101.5 108C94.8726 108 89.5 102.627 89.5 96C89.5 89.3726 94.8726 84 101.5 84C108.127 84 113.5 89.3726 113.5 96ZM95.98 96C95.98 99.0486 98.4514 101.52 101.5 101.52C104.549 101.52 107.02 99.0486 107.02 96C107.02 92.9514 104.549 90.48 101.5 90.48C98.4514 90.48 95.98 92.9514 95.98 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="104.5" cy="95" r="7" fill="#1A1A1A"/><circle cx="102" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g></g>
       <g class="olho" data-olho="dir"><path d="M187 96C187 113.673 173.121 128 156 128C138.879 128 125 113.673 125 96C125 78.3269 138.879 64 156 64C173.121 64 187 78.3269 187 96ZM141.74 96C141.74 104.13 148.124 110.72 156 110.72C163.876 110.72 170.26 104.13 170.26 96C170.26 87.8704 163.876 81.28 156 81.28C148.124 81.28 141.74 87.8704 141.74 96Z" fill="url(#boop-g1)"/><g class="globo"><path d="M168 96C168 102.627 162.627 108 156 108C149.373 108 144 102.627 144 96C144 89.3726 149.373 84 156 84C162.627 84 168 89.3726 168 96ZM150.48 96C150.48 99.0486 152.951 101.52 156 101.52C159.049 101.52 161.52 99.0486 161.52 96C161.52 92.9514 159.049 90.48 156 90.48C152.951 90.48 150.48 92.9514 150.48 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="159" cy="95" r="7" fill="#1A1A1A"/><circle cx="156.5" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g><path d="M187 96C187 113.673 173.121 128 156 128C138.879 128 125 113.673 125 96C125 78.3269 138.879 64 156 64C173.121 64 187 78.3269 187 96ZM141.74 96C141.74 104.13 148.124 110.72 156 110.72C163.876 110.72 170.26 104.13 170.26 96C170.26 87.8704 163.876 81.28 156 81.28C148.124 81.28 141.74 87.8704 141.74 96Z" fill="url(#boop-g2)"/><g class="globo"><path d="M168 96C168 102.627 162.627 108 156 108C149.373 108 144 102.627 144 96C144 89.3726 149.373 84 156 84C162.627 84 168 89.3726 168 96ZM150.48 96C150.48 99.0486 152.951 101.52 156 101.52C159.049 101.52 161.52 99.0486 161.52 96C161.52 92.9514 159.049 90.48 156 90.48C152.951 90.48 150.48 92.9514 150.48 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="159" cy="95" r="7" fill="#1A1A1A"/><circle cx="156.5" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g></g>
       <g class="triangulo"><path d="M156 70.6856C161.562 75.494 165.074 76.5856 172 75.7387L171.636 70.054L171.273 64.3693L170.909 58.6847L170.545 53L166.909 57.4214L163.273 61.8428L159.636 66.2642L156 70.6856Z" fill="url(#boop-g3)"/></g>
       <g class="letra"><path d="M202.24 74.04C204.08 70.92 206.68 68.44 210.04 66.6C213.4 64.76 217.36 63.84 221.92 63.84C227.28 63.84 232.12 65.24 236.44 68.04C240.84 70.84 244.28 74.84 246.76 80.04C249.32 85.24 250.6 91.32 250.6 98.28C250.6 105.24 249.32 111.36 246.76 116.64C244.28 121.84 240.84 125.84 236.44 128.64C232.12 131.44 227.28 132.84 221.92 132.84C217.36 132.84 213.4 131.92 210.04 130.08C206.76 128.24 204.16 125.76 202.24 122.64V164.16H178.72V64.68H202.24V74.04ZM226.72 98.28C226.72 93.88 225.52 90.48 223.12 88.08C220.8 85.6 217.92 84.36 214.48 84.36C211.04 84.36 208.12 85.6 205.72 88.08C203.4 90.56 202.24 93.96 202.24 98.28C202.24 102.68 203.4 106.12 205.72 108.6C208.12 111.08 211.04 112.32 214.48 112.32C217.92 112.32 220.8 111.08 223.12 108.6C225.52 106.04 226.72 102.6 226.72 98.28Z" fill="currentColor"/><path d="M30.24 74.04C32.08 70.84 34.68 68.36 38.04 66.6C41.4 64.76 45.36 63.84 49.92 63.84C55.28 63.84 60.12 65.2399 64.44 68.0399C68.84 70.8399 72.28 74.8399 74.76 80.0399C77.32 85.2399 78.6 91.3199 78.6 98.2799C78.6 105.24 77.32 111.36 74.76 116.64C72.28 121.84 68.84 125.84 64.44 128.64C60.12 131.44 55.28 132.84 49.92 132.84C45.36 132.84 41.4 131.96 38.04 130.2C34.68 128.36 32.08 125.84 30.24 122.64V132H6.71997V43.2H30.24V74.04ZM54.72 98.2799C54.72 93.8799 53.52 90.4799 51.12 88.0799C48.8 85.5999 45.92 84.36 42.48 84.36C39.04 84.36 36.12 85.5999 33.72 88.0799C31.4 90.56 30.24 93.9599 30.24 98.2799C30.24 102.68 31.4 106.12 33.72 108.6C36.12 111.08 39.04 112.32 42.48 112.32C45.92 112.32 48.8 111.08 51.12 108.6C53.52 106.04 54.72 102.6 54.72 98.2799Z" fill="currentColor"/></g>
     </svg>
-      <span class="assinatura assinatura-footer">Agência</span>
     </div>
     <div class="footer-col">
       <span class="label">Fale com a gente</span>
@@ -968,8 +980,7 @@ footer{background:var(--preto);color:var(--off-white);
     </div>
   </div>
   <div class="footer-base label">
-    <span>© 2026 Boop Agência</span>
-    <span><span class="ph">{{CNPJ}}</span></span>
+    <span>© 2026 Boop</span>
   </div>
 </footer>
 
@@ -1153,6 +1164,8 @@ footer{background:var(--preto);color:var(--off-white);
     menu.classList.add('aberto');
     document.body.classList.add('menu-aberto');
   }
+  var fecharBtn = document.getElementById('menuFechar');
+  if (fecharBtn) fecharBtn.addEventListener('click', fecha);
   btn.addEventListener('click', function(){
     menu.classList.contains('aberto') ? fecha() : abre();
   });
