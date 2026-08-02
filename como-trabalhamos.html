@@ -828,9 +828,8 @@ footer{
 }
 
 @media (max-width:600px){
-  section{padding-left:var(--pad);padding-right:var(--pad)}
+  section{padding-left:calc(var(--rail) + var(--pad));padding-right:calc(var(--rail) + var(--pad))}
   .rail{display:none}
-  header{padding-left:var(--pad);padding-right:var(--pad)}
   .card-principal{padding:36px 28px}
   .principal-cta{padding:24px}
 }
@@ -913,28 +912,36 @@ footer{
 }
 
 /* mobile / reduced-motion: carrossel com snap */
-body.sem-pin #grade,body.sem-pin .processo-veu{display:none}
+body.sem-pin .processo-veu{display:none}
 body.sem-pin .processo-runway{height:auto}
-body.sem-pin .processo-sticky{position:static;height:auto;padding-bottom:8vh}
+body.sem-pin .processo-sticky{position:relative;height:auto;padding-bottom:8vh;overflow:hidden}
 body.sem-pin .trilha-wrap{display:block}
 body.sem-pin .trilha{
   overflow-x:auto;scroll-snap-type:x mandatory;
   padding-block:clamp(24px,5vh,48px);
-  padding-inline-start:var(--pad);
-  padding-inline-end:var(--pad);
+  padding-left:0;
+  padding-right:0;
+  scroll-padding-left:calc(var(--rail) + var(--pad));
   scrollbar-width:none;
 }
+body.sem-pin .etapa:first-child{
+  margin-left:calc(var(--rail) + var(--pad));
+}
+body.sem-pin .etapa:last-child{
+  padding-right:calc(var(--rail) + var(--pad));
+}
 body.sem-pin .processo-topo{
-  padding-left:var(--pad);
-  padding-right:var(--pad);
+  padding-top:clamp(70px,10vh,108px);
+  padding-left:calc(var(--rail) + var(--pad));
+  padding-right:calc(var(--rail) + var(--pad));
 }
 body.sem-pin .progresso{
-  margin-left:var(--pad);
-  margin-right:var(--pad);
+  margin-left:calc(var(--rail) + var(--pad));
+  margin-right:calc(var(--rail) + var(--pad));
 }
 body.sem-pin .progresso-legenda{
-  margin-left:var(--pad);
-  margin-right:var(--pad);
+  margin-left:calc(var(--rail) + var(--pad));
+  margin-right:calc(var(--rail) + var(--pad));
 }
 body.sem-pin .trilha::-webkit-scrollbar{display:none}
 body.sem-pin .etapa{width:min(86vw,520px);scroll-snap-align:start}
@@ -1676,6 +1683,50 @@ footer{background:var(--preto);color:var(--off-white);
   }
   aplicaModo();
   addEventListener('resize', aplicaModo);
+
+  /* ---- autoplay do carrossel (sem-pin/mobile) ---- */
+  /* O timer só inicia quando o usuário rola até a seção #processo.
+     IntersectionObserver cuida do liga/desliga — sem setTimeout, sem race condition. */
+  (function(){
+    if (!semPin()) return;
+    if (!('IntersectionObserver' in window)) return;
+
+    var idx = 0;
+    var interagiu = false;
+    var timer = null;
+
+    function avanca(){
+      idx = (idx + 1) % etapas.length;
+      var alvo = etapas[idx].offsetLeft - trilha.offsetLeft;
+      trilha.scrollTo({left: alvo, behavior: 'smooth'});
+    }
+
+    function para(){ interagiu = true; ligaDesliga(false); }
+
+    function ligaDesliga(ligar){
+      if (interagiu) return;
+      if (ligar && !timer){
+        timer = setInterval(avanca, 2000);
+      } else if (!ligar && timer){
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    /* Inicia quando a seção entra na tela, pausa quando sai */
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        ligaDesliga(e.isIntersecting);
+      });
+    }, {threshold: 0.2}).observe(document.getElementById('processo'));
+
+    trilha.addEventListener('touchstart', para, {passive:true});
+    trilha.addEventListener('pointerdown', para, {passive:true});
+    trilha.addEventListener('scroll', function onScroll(){
+      para();
+      trilha.removeEventListener('scroll', onScroll);
+    }, {passive:true});
+  })();
   if (document.fonts && document.fonts.ready){
     document.fonts.ready.then(function(){ ajustaRunway(); calcula(); });
   }
@@ -1849,54 +1900,6 @@ footer{background:var(--preto);color:var(--off-white);
 })();
 </script>
 
-<script>
-/* ---- autoplay do carrossel mobile (nosso método) ---- */
-(function(){
-  'use strict';
 
-  function initAutoplay(){
-    var trilha = document.querySelector('.trilha');
-    if (!trilha) return;
-    var etapas = trilha.querySelectorAll('.etapa');
-    if (!etapas.length) return;
-    var idx = 0;
-    var timer = null;
-    var interagiu = false;
-
-    function avanca(){
-      idx = (idx + 1) % etapas.length;
-      /* Calcula o offsetLeft da etapa relativo à trilha e rola para lá */
-      var alvo = etapas[idx].offsetLeft - trilha.offsetLeft;
-      trilha.scrollTo({left: alvo, behavior: 'smooth'});
-    }
-
-    function para(){ interagiu = true; clearInterval(timer); }
-
-    timer = setInterval(function(){ if (!interagiu) avanca(); }, 3400);
-
-    trilha.addEventListener('touchstart', para, {passive:true});
-    trilha.addEventListener('pointerdown', para, {passive:true});
-    /* Para no primeiro scroll manual */
-    trilha.addEventListener('scroll', function onScroll(){
-      para();
-      trilha.removeEventListener('scroll', onScroll);
-    }, {passive:true});
-  }
-
-  /* Aguarda o modo sem-pin ser aplicado (ocorre no DOMContentLoaded do script principal) */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function(){
-      /* pequeno delay para o script principal aplicar .sem-pin */
-      setTimeout(function(){
-        if (document.body.classList.contains('sem-pin')) initAutoplay();
-      }, 80);
-    });
-  } else {
-    setTimeout(function(){
-      if (document.body.classList.contains('sem-pin')) initAutoplay();
-    }, 80);
-  }
-})();
-</script>
 </body>
 </html>
