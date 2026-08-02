@@ -125,54 +125,92 @@ p{
   writing-mode:vertical-rl;
   display:flex;align-items:center;gap:22px;
   pointer-events:auto;
-  color:var(--azul-tinta);
-  font-family:var(--mono);
-  font-size:10px;
-  letter-spacing:.24em;
-  text-transform:uppercase;
+  color:var(--off-white);
+  transition:color .3s ease;
 }
+body.rail-escuro .rail-inner{color:var(--azul-tinta)}
 .rail-esq .rail-inner{transform:rotate(180deg)}
-.rail-inner a{padding:2px;opacity:.7;transition:opacity .2s}
-.rail-inner a:hover{opacity:1}
-.rail-inner .fio{width:1px;height:52px;background:currentColor;opacity:.35}
+.rail-inner a{padding:2px}
+.rail-inner .fio{width:1px;height:52px;background:currentColor;opacity:.5}
 
 header{
   position:fixed;top:0;left:0;right:0;z-index:80;
   display:flex;align-items:center;justify-content:space-between;
   gap:24px;
   padding:13px calc(var(--rail) + 14px);
-  background:rgba(242,239,233,.72);
-  backdrop-filter:blur(14px) saturate(140%);
-  -webkit-backdrop-filter:blur(14px) saturate(140%);
-  border-bottom:1px solid var(--linha);
+  background:var(--off-white);
+  border-bottom:1px solid rgba(10,23,64,.14);
 }
 header .logo-header{display:grid;gap:5px;justify-items:start}
-header .marca{height:44px;width:auto}
+header .marca{height:50px;width:auto}
 .assinatura{
   font-family:var(--mono);font-size:10px;font-weight:600;
-  text-transform:uppercase;letter-spacing:.52em;
-  padding-left:3px;line-height:1;color:var(--azul-tinta);
+  text-transform:uppercase;letter-spacing:.62em;
+  padding-left:3px;line-height:1;
 }
-@media (max-width:520px){header .marca{height:36px}
-  .assinatura{font-size:9px;letter-spacing:.38em}}
-header nav{display:flex;gap:clamp(12px,2vw,28px);align-items:center}
-header nav a{position:relative;padding:4px 0;font-size:14px;font-variation-settings:'wght' 500}
+@media (max-width:520px){header .marca{height:40px}
+  .assinatura{font-size:9px;letter-spacing:.42em}}
+header nav{display:flex;gap:clamp(12px,2vw,30px)}
+header nav a{position:relative;padding:4px 0}
 header nav a::after{
-  content:"";position:absolute;left:0;right:100%;bottom:-2px;height:1.5px;
-  background:var(--azul-eletrico);transition:right .3s ease;
+  content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;
+  background:var(--ciano-boop);transition:right .3s ease;
 }
 header nav a:hover::after,header nav a:focus-visible::after{right:0}
-header nav a.ativo{color:var(--azul-eletrico)}
 header nav a.ativo::after{right:0}
+header nav a.ativo{font-variation-settings:'wdth' 100,'wght' 600}
 .btn-header{
   background:var(--azul-eletrico);color:var(--off-white);
-  padding:10px 18px;white-space:nowrap;font-size:13px;
-  font-variation-settings:'wght' 600;
-  border-radius:2px;
-  transition:background .2s ease,transform .2s ease;
+  padding:9px 16px;white-space:nowrap;
+  transition:background .2s ease;
 }
 .btn-header:hover{background:var(--azul-tinta)}
-@media (max-width:900px){header nav a:not(.btn-header){display:none}}
+@media (max-width:900px){header nav{display:none}}
+
+/* ---------- menu hambúrguer (mobile) ---------- */
+.hamb{
+  display:none;width:38px;height:38px;flex:0 0 auto;
+  flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  position:relative;z-index:110;
+}
+.hamb span{display:block;width:22px;height:2px;background:var(--azul-tinta);
+  transition:transform .3s cubic-bezier(.6,0,.3,1),opacity .3s ease}
+.hamb[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamb[aria-expanded="true"] span:nth-child(2){opacity:0}
+.hamb[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:900px){
+  .hamb{display:flex}
+  header .btn-header{display:none}
+}
+body.menu-aberto{overflow:hidden}
+.menu-mobile{
+  position:fixed;inset:0;z-index:100;
+  background:var(--azul-tinta);color:var(--off-white);
+  display:flex;flex-direction:column;
+  padding:calc(90px + 3vh) var(--pad) 34px;
+  transform:translateX(100%);
+  transition:transform .45s cubic-bezier(.16,1,.3,1);
+  visibility:hidden;
+}
+.menu-mobile.aberto{transform:translateX(0);visibility:visible}
+.menu-mobile nav{display:flex;flex-direction:column;gap:2px;margin-bottom:auto}
+.menu-mobile nav a{
+  font-family:var(--display);font-variation-settings:'wdth' 108,'wght' 700;
+  text-transform:uppercase;font-size:clamp(26px,8vw,42px);
+  line-height:1.25;
+  padding:12px 0;border-bottom:1px solid rgba(242,239,233,.14);
+  color:var(--off-white);
+}
+.menu-mobile nav a.ativo{color:var(--ciano-boop)}
+.menu-mobile .menu-cta{margin-top:30px;align-self:flex-start}
+.menu-mobile .menu-rodape{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:30px;padding-top:18px;border-top:1px solid rgba(242,239,233,.14);
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  opacity:.75;
+}
+.menu-mobile .menu-rodape a:hover{color:var(--ciano-boop)}
+@media (prefers-reduced-motion:reduce){.menu-mobile{transition:none}}
 
 /* ============================================================
    BOTÕES
@@ -415,17 +453,17 @@ h3.display{font-size:clamp(28px,3.2vw,44px)}
 .card-principal .eyebrow{color:var(--ciano-boop)}
 .card-principal .eyebrow .fio{background:var(--ciano-boop)}
 .card-principal h3{
-  font-size:clamp(38px,5vw,72px);
-  line-height:.88;
-  max-width:16ch;
-  margin-bottom:clamp(24px,3vh,36px);
+  font-size:clamp(32px,4.4vw,64px);
+  line-height:.92;
+  max-width:17ch;
+  margin-bottom:clamp(22px,3vh,32px);
 }
 .card-principal .descricao{
-  font-size:clamp(16px,1.25vw,19px);
+  font-size:clamp(15px,1.15vw,18px);
   line-height:1.65;
   max-width:58ch;
   color:rgba(242,239,233,.86);
-  margin-bottom:clamp(40px,5vh,56px);
+  margin-bottom:clamp(36px,4.5vh,50px);
 }
 .principal-grid{
   display:grid;
@@ -434,13 +472,13 @@ h3.display{font-size:clamp(28px,3.2vw,44px)}
   align-items:end;
 }
 .checklist{
-  display:grid;grid-template-columns:1fr 1fr;gap:14px 32px;
+  display:grid;grid-template-columns:1fr 1fr;gap:14px 24px;
   padding-top:32px;border-top:1px solid rgba(242,239,233,.16);
 }
 .checklist .item{
   display:flex;align-items:center;gap:12px;
   font-family:var(--display);font-variation-settings:'wdth' 104,'wght' 500;
-  font-size:15px;letter-spacing:.005em;
+  font-size:clamp(13.5px,1.05vw,15px);letter-spacing:.005em;line-height:1.25;
   color:rgba(242,239,233,.94);
 }
 .checklist .check{
@@ -463,12 +501,20 @@ h3.display{font-size:clamp(28px,3.2vw,44px)}
   text-transform:uppercase;color:rgba(0,212,245,.9);margin-bottom:12px;
 }
 .principal-cta .valor{
-  font-family:var(--display);font-variation-settings:'wdth' 108,'wght' 800;
-  font-size:clamp(32px,4vw,48px);letter-spacing:-.02em;line-height:1;
+  display:flex;flex-direction:column;gap:7px;
   margin-bottom:14px;color:var(--off-white);
 }
-.principal-cta .valor .from{font-size:.55em;font-variation-settings:'wdth' 100,'wght' 500;color:rgba(242,239,233,.6);letter-spacing:0;margin-right:6px}
-.principal-cta .valor .por{font-size:.45em;font-variation-settings:'wdth' 100,'wght' 500;color:rgba(242,239,233,.6);letter-spacing:0}
+.principal-cta .valor .from{
+  font-family:var(--mono);font-size:12px;font-variation-settings:normal;
+  text-transform:uppercase;letter-spacing:.1em;
+  color:rgba(242,239,233,.62);
+}
+.principal-cta .valor .num{
+  font-family:var(--display);font-variation-settings:'wdth' 108,'wght' 800;
+  font-size:clamp(26px,3.6vw,44px);letter-spacing:-.02em;line-height:1;
+  white-space:nowrap;
+}
+.principal-cta .valor .por{font-size:.42em;font-variation-settings:'wdth' 100,'wght' 500;color:rgba(242,239,233,.6);letter-spacing:0;margin-left:2px}
 .principal-cta .obs{font-size:13px;line-height:1.5;color:rgba(242,239,233,.68);margin-bottom:24px;max-width:none}
 
 @media (max-width:900px){
@@ -797,10 +843,24 @@ footer{
 .processo-topo{
   position:relative;z-index:3;
   padding:calc(108px + 2vh) calc(var(--rail) + var(--pad)) 0;
-  display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:20px;
 }
 .processo-topo h2{font-size:clamp(24px,3.4vw,52px)}
-.processo-topo .label{opacity:.62}
+.processo-dica{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.processo-dica .label{opacity:.62}
+.seta-arraste{display:flex;align-items:center;gap:1px;opacity:.85;transition:opacity .5s ease}
+.seta-arraste svg{width:20px;height:20px;flex:0 0 auto}
+.seta-arraste svg path{stroke:var(--ciano-boop)}
+.seta-arraste svg:nth-child(1){animation:arraste-desliza 1.5s ease-in-out infinite}
+.seta-arraste svg:nth-child(2){animation:arraste-desliza 1.5s ease-in-out infinite;animation-delay:.18s}
+@keyframes arraste-desliza{
+  0%,100%{opacity:.2;transform:translateX(-3px)}
+  50%{opacity:1;transform:translateX(3px)}
+}
+.processo.interagiu .seta-arraste{opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){
+  .seta-arraste svg{animation:none;opacity:.75}
+}
 .trilha-wrap{position:relative;z-index:3;flex:1;display:flex;align-items:center}
 .trilha{display:flex;will-change:transform;padding:0 calc(var(--rail) + var(--pad))}
 .etapa{
@@ -874,12 +934,6 @@ body.sem-pin .etapa{width:min(86vw,520px);scroll-snap-align:start}
 @media (prefers-reduced-motion:reduce){
   .marca .olho{transition:none;transform:none!important}
 }
-/* header real logo é mais alto que o placeholder antigo */
-header .marca{height:46px}
-@media (max-width:520px){header .marca{height:38px}}
-/* rails no padrão da home */
-.rail-inner{color:var(--off-white);transition:color .3s ease}
-body.rail-escuro .rail-inner{color:var(--azul-tinta)}
 /* processo (metodo horizontal) fica escuro; rails claros por padrão */
 .processo .processo-topo h2{font-size:clamp(24px,3.4vw,52px)}
 .processo .processo-topo .label{opacity:.62}
@@ -987,7 +1041,26 @@ footer{background:var(--preto);color:var(--off-white);
     <a href="#contato" class="label">Contato</a>
   </nav>
   <a class="btn-header label" href="{{link-whatsapp}}">Vamos Conversar</a>
+  <button class="hamb" id="hambToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuMobile">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+
+<!-- ===== MENU MOBILE ===== -->
+<div class="menu-mobile" id="menuMobile">
+  <nav>
+    <a href="/">Home</a>
+    <a href="/como-trabalhamos.html" class="ativo" aria-current="page">Como Trabalhamos</a>
+    <a href="/#cases">Cases</a>
+    <a href="/#time">Sobre</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  <a href="{{link-whatsapp}}" class="btn btn-eletrico menu-cta"><span>Vamos Conversar</span><span class="seta" aria-hidden="true">→</span></a>
+  <div class="menu-rodape">
+    <span>Curitiba · PR</span>
+    <a href="https://www.instagram.com/boop.oficial_/" target="_blank" rel="noopener">Instagram</a>
+  </div>
+</div>
 
 <main id="topo-main">
 
@@ -1064,7 +1137,13 @@ footer{background:var(--preto);color:var(--off-white);
       <div class="processo-veu"></div>
       <div class="processo-topo">
         <h2 class="display">Nosso <span class="serif-it">método</span></h2>
-        <span class="label">Quatro etapas · role para o lado</span>
+        <div class="processo-dica">
+          <span class="label">Quatro etapas · role para o lado</span>
+          <span class="seta-arraste" aria-hidden="true">
+            <svg viewBox="0 0 20 20"><path d="M6 4L14 10L6 16" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M6 4L14 10L6 16" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
       </div>
       <div class="trilha-wrap">
         <div class="trilha" id="trilha" tabindex="0" role="region" aria-label="Etapas do método, navegue com as setas">
@@ -1160,7 +1239,7 @@ footer{background:var(--preto);color:var(--off-white);
 
       <div class="principal-cta">
         <div class="r">Investimento</div>
-        <div class="valor"><span class="from">A partir de</span>R$ 1.500<span class="por">/mês</span></div>
+        <div class="valor"><span class="from">A partir de:</span><span class="num">R$1.500,00<span class="por">/mês</span></span></div>
         <p class="obs">O investimento varia conforme o estágio, objetivos e necessidades de cada empresa. Verba de mídia paga (anúncios) é contabilizada à parte.</p>
         <a href="{{link-whatsapp}}" class="btn btn-claro"><span>Quero entender meu projeto</span><span class="seta" aria-hidden="true">→</span></a>
       </div>
@@ -1319,7 +1398,7 @@ footer{background:var(--preto);color:var(--off-white);
 
 <!-- ============================================================
      7. FAQ
-
+     ============================================================ -->
 <section class="faq" id="faq">
   <div class="cabecalho">
     <div class="eyebrow reveal">
@@ -1580,11 +1659,20 @@ footer{background:var(--preto);color:var(--off-white);
   }
   addEventListener('load', function(){ ajustaRunway(); calcula(); });
 
+  var processoEl = document.getElementById('processo');
+  var dicaEscondida = false;
+  function escondeDica(){
+    if (dicaEscondida) return;
+    dicaEscondida = true;
+    processoEl.classList.add('interagiu');
+  }
+
   function calcula(){
     if (document.body.classList.contains('sem-pin')) return;
     var r = runway.getBoundingClientRect();
     var curso = runway.offsetHeight - innerHeight;
     var p = Math.max(0, Math.min(1, (-r.top) / (curso || 1)));
+    if (p > 0.02) escondeDica();
     alvoX = -p * medir();
     barra.style.width = (p*100).toFixed(2) + '%';
     var idx = Math.min(etapas.length-1, Math.round(p*(etapas.length-1)));
@@ -1598,6 +1686,7 @@ footer{background:var(--preto);color:var(--off-white);
     else { rodando = false; }
   }
   trilha.addEventListener('scroll', function(){
+    escondeDica();
     if (!document.body.classList.contains('sem-pin')) return;
     var max = trilha.scrollWidth - trilha.clientWidth;
     barra.style.width = ((max ? trilha.scrollLeft/max : 0)*100).toFixed(2) + '%';
@@ -1620,6 +1709,7 @@ footer{background:var(--preto);color:var(--off-white);
   /* arraste com o mouse na trilha */
   var arrastando = false, iniX = 0, iniScroll = 0;
   trilha.addEventListener('pointerdown', function(e){
+    escondeDica();
     if (document.body.classList.contains('sem-pin')) return;
     arrastando = true; iniX = e.clientX; iniScroll = scrollY;
     trilha.setPointerCapture(e.pointerId);
@@ -1706,6 +1796,32 @@ footer{background:var(--preto);color:var(--off-white);
     }, {threshold:0}).observe(document.getElementById('processo'));
   } else { liga(); }
 
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+  var btn = document.getElementById('hambToggle');
+  var menu = document.getElementById('menuMobile');
+  if (!btn || !menu) return;
+  function fecha(){
+    btn.setAttribute('aria-expanded','false');
+    menu.classList.remove('aberto');
+    document.body.classList.remove('menu-aberto');
+  }
+  function abre(){
+    btn.setAttribute('aria-expanded','true');
+    menu.classList.add('aberto');
+    document.body.classList.add('menu-aberto');
+  }
+  btn.addEventListener('click', function(){
+    menu.classList.contains('aberto') ? fecha() : abre();
+  });
+  [].slice.call(menu.querySelectorAll('a')).forEach(function(a){
+    a.addEventListener('click', fecha);
+  });
+  addEventListener('keydown', function(e){ if (e.key === 'Escape') fecha(); });
+  addEventListener('resize', function(){ if (innerWidth > 900) fecha(); });
 })();
 </script>
 </body>

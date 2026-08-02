@@ -205,6 +205,51 @@ header nav a.ativo{font-variation-settings:'wdth' 100,'wght' 600}
 .btn-header:hover{background:var(--azul-tinta)}
 @media (max-width:900px){header nav{display:none}}
 
+/* ---------- menu hambúrguer (mobile) ---------- */
+.hamb{
+  display:none;width:38px;height:38px;flex:0 0 auto;
+  flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  position:relative;z-index:110;
+}
+.hamb span{display:block;width:22px;height:2px;background:var(--azul-tinta);
+  transition:transform .3s cubic-bezier(.6,0,.3,1),opacity .3s ease}
+.hamb[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamb[aria-expanded="true"] span:nth-child(2){opacity:0}
+.hamb[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:900px){
+  .hamb{display:flex}
+  header .btn-header{display:none}
+}
+body.menu-aberto{overflow:hidden}
+.menu-mobile{
+  position:fixed;inset:0;z-index:100;
+  background:var(--azul-tinta);color:var(--off-white);
+  display:flex;flex-direction:column;
+  padding:calc(90px + 3vh) var(--pad) 34px;
+  transform:translateX(100%);
+  transition:transform .45s cubic-bezier(.16,1,.3,1);
+  visibility:hidden;
+}
+.menu-mobile.aberto{transform:translateX(0);visibility:visible}
+.menu-mobile nav{display:flex;flex-direction:column;gap:2px;margin-bottom:auto}
+.menu-mobile nav a{
+  font-family:var(--display);font-variation-settings:'wdth' 108,'wght' 700;
+  text-transform:uppercase;font-size:clamp(26px,8vw,42px);
+  line-height:1.25;
+  padding:12px 0;border-bottom:1px solid rgba(242,239,233,.14);
+  color:var(--off-white);
+}
+.menu-mobile nav a.ativo{color:var(--ciano-boop)}
+.menu-mobile .menu-cta{margin-top:30px;align-self:flex-start}
+.menu-mobile .menu-rodape{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:30px;padding-top:18px;border-top:1px solid rgba(242,239,233,.14);
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  opacity:.75;
+}
+.menu-mobile .menu-rodape a:hover{color:var(--ciano-boop)}
+@media (prefers-reduced-motion:reduce){.menu-mobile{transition:none}}
+
 /* ============================================================
    BOTÃO PRIMÁRIO
    ============================================================ */
@@ -596,7 +641,26 @@ footer{background:var(--preto);color:var(--off-white);
     <a href="#contato" class="label">Contato</a>
   </nav>
   <a class="btn-header label" href="{{link-whatsapp}}">Vamos Conversar</a>
+  <button class="hamb" id="hambToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuMobile">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+
+<!-- ===== MENU MOBILE ===== -->
+<div class="menu-mobile" id="menuMobile">
+  <nav>
+    <a href="/" class="ativo" aria-current="page">Home</a>
+    <a href="/como-trabalhamos.html">Como Trabalhamos</a>
+    <a href="#cases">Cases</a>
+    <a href="#time">Sobre</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  <a href="{{link-whatsapp}}" class="btn btn-eletrico menu-cta"><span>Vamos Conversar</span><span class="seta" aria-hidden="true">→</span></a>
+  <div class="menu-rodape">
+    <span>Curitiba · PR</span>
+    <a href="https://www.instagram.com/boop.oficial_/" target="_blank" rel="noopener">Instagram</a>
+  </div>
+</div>
 
 <main id="topo">
 
@@ -1071,6 +1135,32 @@ footer{background:var(--preto);color:var(--off-white);
     claros.forEach(function(el){ ioRail.observe(el); });
   }
 
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+  var btn = document.getElementById('hambToggle');
+  var menu = document.getElementById('menuMobile');
+  if (!btn || !menu) return;
+  function fecha(){
+    btn.setAttribute('aria-expanded','false');
+    menu.classList.remove('aberto');
+    document.body.classList.remove('menu-aberto');
+  }
+  function abre(){
+    btn.setAttribute('aria-expanded','true');
+    menu.classList.add('aberto');
+    document.body.classList.add('menu-aberto');
+  }
+  btn.addEventListener('click', function(){
+    menu.classList.contains('aberto') ? fecha() : abre();
+  });
+  [].slice.call(menu.querySelectorAll('a')).forEach(function(a){
+    a.addEventListener('click', fecha);
+  });
+  addEventListener('keydown', function(e){ if (e.key === 'Escape') fecha(); });
+  addEventListener('resize', function(){ if (innerWidth > 900) fecha(); });
 })();
 </script>
 </body>
