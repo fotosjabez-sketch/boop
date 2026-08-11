@@ -72,6 +72,8 @@
 
   --rail:clamp(28px,4vw,64px);
   --pad:clamp(20px,5vw,80px);
+  /* margem horizontal unificada do conteúdo */
+  --gutter:calc(var(--rail) + var(--pad));
 }
 
 *{box-sizing:border-box}
@@ -171,11 +173,18 @@ body.rail-escuro .rail-inner{color:var(--azul-tinta)}
 .rail-inner a{padding:2px}
 .rail-inner .fio{width:1px;height:52px;background:currentColor;opacity:.5}
 
+@media (max-width:600px){
+  /* rails escondidos no mobile → margem lateral vira um gutter simétrico e enxuto,
+     igual ao sistema já aplicado em como-trabalhamos.html */
+  :root{--gutter:22px}
+  .rail{display:none}
+}
+
 header{
   position:fixed;top:0;left:0;right:0;z-index:80;
   display:flex;align-items:center;justify-content:space-between;
   gap:24px;
-  padding:13px calc(var(--rail) + var(--pad));
+  padding:13px var(--gutter);
   background:var(--off-white);
   border-bottom:1px solid rgba(10,23,64,.14);
 }
@@ -293,7 +302,7 @@ body.menu-aberto{overflow:hidden}
   position:relative;
   background:var(--off-white);
   clip-path:polygon(0 0,100% 0,100% 84%,0 100%);
-  padding:calc(102px + 3vh) calc(var(--rail) + var(--pad)) 19vh;
+  padding:calc(102px + 3vh) var(--gutter) 19vh;
   min-height:100svh;
   display:grid;
   grid-template-columns:minmax(0,62fr) minmax(0,38fr);
@@ -369,7 +378,7 @@ body.menu-aberto{overflow:hidden}
   border-bottom:1px solid rgba(242,239,233,.16);
 }
 .prova .label{
-  padding:0 calc(var(--rail) + var(--pad));margin-bottom:22px;opacity:.7;
+  padding:0 var(--gutter);margin-bottom:22px;opacity:.7;
 }
 .marquee{display:flex;width:max-content;animation:desliza 34s linear infinite}
 .marquee-grupo{display:flex;align-items:center;flex:0 0 auto}
@@ -390,7 +399,7 @@ body.menu-aberto{overflow:hidden}
    3. ESTRATÉGIA — card único que leva para Como Trabalhamos
    ============================================================ */
 .estrategia{background:var(--off-white);position:relative;
-  padding:clamp(60px,11vh,150px) calc(var(--rail) + var(--pad))}
+  padding:clamp(60px,11vh,150px) var(--gutter)}
 .card-estrategia{
   position:relative;isolation:isolate;overflow:hidden;
   background:linear-gradient(135deg,var(--azul-tinta) 0%,#0d1e5e 55%,var(--azul-eletrico) 100%);
@@ -433,13 +442,13 @@ body.menu-aberto{overflow:hidden}
    5. RESULTADOS — pessoa, contexto, número, ação, voz
    ============================================================ */
 .cases{background:var(--off-white);padding:clamp(60px,12vh,140px) 0 0}
-.cases-head{padding:0 calc(var(--rail) + var(--pad)) clamp(30px,6vh,64px)}
+.cases-head{padding:0 var(--gutter) clamp(30px,6vh,64px)}
 .cases-head h2{font-size:clamp(38px,6.6vw,104px)}
 .cases-head .apoio{margin-top:22px;color:rgba(10,23,64,.72)}
 .case{
   display:grid;grid-template-columns:minmax(0,.62fr) minmax(0,1fr);
   gap:clamp(22px,4vw,66px);align-items:center;
-  padding:clamp(34px,7vh,84px) calc(var(--rail) + var(--pad));
+  padding:clamp(34px,7vh,84px) var(--gutter);
   border-top:1px solid rgba(10,23,64,.16);
 }
 .case:nth-of-type(even) .case-retrato{order:2}
@@ -512,7 +521,7 @@ body.menu-aberto{overflow:hidden}
    6. TIME
    ============================================================ */
 .time{background:var(--azul-eletrico);color:var(--off-white);position:relative;
-  padding:clamp(20px,4vh,50px) calc(var(--rail) + var(--pad)) clamp(70px,13vh,150px)}
+  padding:clamp(20px,4vh,50px) var(--gutter) clamp(70px,13vh,150px)}
 .time-head{position:relative;z-index:3;max-width:22ch;margin-bottom:clamp(34px,7vh,74px)}
 .time-head h2{font-size:clamp(34px,5.8vw,92px)}
 .time-head p{color:rgba(242,239,233,.82);margin-top:20px}
@@ -547,7 +556,7 @@ body.menu-aberto{overflow:hidden}
   color:var(--off-white);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:clamp(20px,4vh,44px);
-  padding:clamp(70px,12vh,140px) calc(var(--rail) + var(--pad));
+  padding:clamp(70px,12vh,140px) var(--gutter);
   text-align:center;overflow:hidden;
 }
 .cta h2{position:relative;z-index:3;font-size:clamp(44px,10vw,168px)}
@@ -558,7 +567,7 @@ body.menu-aberto{overflow:hidden}
    8. FOOTER
    ============================================================ */
 footer{background:var(--preto);color:var(--off-white);
-  padding:clamp(44px,8vh,90px) calc(var(--rail) + var(--pad)) 30px}
+  padding:clamp(44px,8vh,90px) var(--gutter) 30px}
 .footer-topo{display:flex;flex-wrap:wrap;gap:clamp(24px,5vw,80px);
   justify-content:space-between;align-items:flex-start}
 .footer-topo .marca{height:74px;width:auto}
