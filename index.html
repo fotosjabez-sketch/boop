@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Boop — Construímos o digital das marcas | Curitiba</title>
+<title>Boop · Construímos o digital das marcas | Curitiba</title>
 <meta name="description" content="A Boop constrói o digital das marcas: conteúdo, sites, e-commerce, experiências e sistemas. Você traz o momento, a gente constrói o próximo passo. Curitiba, PR.">
 <link rel="canonical" href="https://deumboop.com.br/">
 <meta name="robots" content="index, follow">
@@ -14,15 +14,15 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Boop">
-<meta property="og:title" content="Boop — Construímos o digital das marcas">
+<meta property="og:title" content="Boop · Construímos o digital das marcas">
 <meta property="og:description" content="Você traz o momento. A gente constrói o próximo passo. Conteúdo, sites, e-commerce, experiências e sistemas sob medida.">
 <meta property="og:url" content="https://deumboop.com.br/">
 <meta property="og:image" content="https://deumboop.com.br/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Boop — construímos o digital das marcas, em Curitiba">
+<meta property="og:image:alt" content="Boop · construímos o digital das marcas, em Curitiba">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Boop — Construímos o digital das marcas">
+<meta name="twitter:title" content="Boop · Construímos o digital das marcas">
 <meta name="twitter:description" content="Você traz o momento. A gente constrói o próximo passo.">
 <meta name="twitter:image" content="https://deumboop.com.br/og.jpg">
 <script type="application/ld+json">
@@ -31,7 +31,7 @@
   "@type": "ProfessionalService",
   "@id": "https://deumboop.com.br/#organizacao",
   "name": "Boop",
-  "alternateName": "Boop — construímos o digital das marcas",
+  "alternateName": "Boop · construímos o digital das marcas",
   "url": "https://deumboop.com.br/",
   "logo": "https://deumboop.com.br/og.jpg",
   "image": "https://deumboop.com.br/og.jpg",
@@ -132,6 +132,14 @@ body{
 }
 img,svg{display:block}
 a{color:inherit;text-decoration:none}
+/* grão sutil por cima do site inteiro — tira o aspecto "renderizado liso demais"
+   sem virar filtro de instagram. É textura, não efeito. */
+body::after{
+  content:"";position:fixed;inset:0;z-index:3;pointer-events:none;
+  opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch' result='t'/%3E%3CfeColorMatrix in='t' type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.75 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (max-width:600px){ body::after{ opacity:.035 } }
 .marca{display:block;overflow:visible}
 .claro-sobre-escuro{color:var(--off-white)}
 .escuro-sobre-claro{color:var(--azul-tinta)}
@@ -185,7 +193,7 @@ body.rail-escuro .rail-inner{color:var(--off-white)}
    ============================================================ */
 header{
   position:fixed;top:0;left:0;right:0;z-index:80;
-  display:flex;align-items:center;justify-content:space-between;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
   padding:15px var(--gutter);
   background:color-mix(in srgb,var(--off-white) 82%,transparent);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
@@ -194,12 +202,14 @@ header{
 body.rolou header{border-bottom-color:var(--linha)}
 header .marca{height:44px;width:auto}
 header nav{display:flex;align-items:center;gap:34px}
-header nav a{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;position:relative;padding:4px 0;opacity:.78;transition:opacity .2s}
+header nav a{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;position:relative;padding:4px 0;opacity:.78;transition:opacity .2s;white-space:nowrap}
 header nav a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:1.5px;background:var(--azul-eletrico);transition:right .3s cubic-bezier(.16,1,.3,1)}
 header nav a:hover{opacity:1}
 header nav a:hover::after{right:0}
 .hamb{display:none;width:46px;height:46px;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:var(--azul-tinta)}
-@media (max-width:900px){
+/* nav completa só cabe com folga a partir daqui; abaixo disso, menu hambúrguer
+   evita que nav e botão colidam (faixa que antes ficava espremida) */
+@media (max-width:1080px){
   header nav{display:none}
   .hamb{display:flex}
   header .btn-header{display:none}
@@ -237,7 +247,11 @@ body.menu-aberto{overflow:hidden}
   overflow-wrap:break-word;
 }
 .hero h1 .serif-it,.hero-h1 .serif-it{font-variation-settings:normal;display:inline-block}
-.hero h1 .azul,.hero-h1 .azul{color:var(--azul-eletrico)}
+.hero h1 .azul,.hero-h1 .azul{
+  color:var(--azul-eletrico);position:relative;padding-bottom:.06em;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 10' preserveAspectRatio='none'%3E%3Cpath d='M1 6 Q 14 1 27 6 T 53 6 T 79 6 T 105 6 T 119 6' fill='none' stroke='%2300D4F5' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:repeat-x;background-position:0 100%;background-size:110px 12px;
+}
 .w-reveal{display:inline-block;opacity:0;transform:translateY(.4em);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
 .hero-h1.vis .w-reveal{opacity:1;transform:translateY(0)}
 @media (prefers-reduced-motion:reduce){.w-reveal{opacity:1;transform:none;transition:none}}
@@ -276,8 +290,8 @@ body.menu-aberto{overflow:hidden}
 .momento h2{font-size:clamp(34px,5.5vw,76px);margin:18px 0 0}
 .momento .lead{margin-top:26px;font-size:clamp(17px,1.5vw,20px);line-height:1.55;color:rgba(10,23,64,.72);max-width:48ch}
 .momentos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--linha);border:1px solid var(--linha)}
-.momento-card{background:var(--off-white);padding:clamp(28px,3vw,40px);min-height:240px;display:flex;flex-direction:column;justify-content:space-between;transition:background .3s}
-.momento-card:hover{background:var(--off-white-2)}
+.momento-card{background:var(--off-white);padding:clamp(28px,3vw,40px);min-height:240px;display:flex;flex-direction:column;justify-content:space-between;transition:background .3s,transform .4s cubic-bezier(.16,1,.3,1)}
+.momento-card:hover{background:var(--off-white-2);transform:rotate(-.4deg)}
 .momento-card .n{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--azul-eletrico)}
 .momento-card p{font-family:var(--display);font-variation-settings:'wght' 600,'wdth' 104;font-size:clamp(18px,1.5vw,22px);line-height:1.25;margin:0}
 @media (max-width:820px){.momentos-grid{grid-template-columns:1fr 1fr}.momento-card{min-height:180px}}
@@ -289,7 +303,7 @@ body.menu-aberto{overflow:hidden}
 .filosofia{background:var(--tinta-funda);color:var(--off-white);padding:clamp(100px,18vh,220px) var(--gutter);position:relative;overflow:hidden}
 .filosofia .grade-bg{position:absolute;inset:0;opacity:.5;background-image:linear-gradient(rgba(242,239,233,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(242,239,233,.05) 1px,transparent 1px);background-size:64px 64px;z-index:0}
 .filosofia>*{position:relative;z-index:1}
-.filosofia .bloco{max-width:20ch}
+.filosofia h2{max-width:14ch}
 .filosofia h2{font-size:clamp(40px,7vw,104px);line-height:.94;margin:22px 0 0}
 .filosofia h2 .serif-it{color:var(--ciano-boop)}
 .filosofia .apoio{margin-top:clamp(34px,5vh,54px);max-width:46ch;font-size:clamp(17px,1.5vw,21px);line-height:1.6;color:rgba(242,239,233,.82)}
@@ -365,8 +379,8 @@ a.trilha{background:var(--off-white);padding:clamp(30px,4vw,56px) clamp(28px,4vw
 .constroi h2{font-size:clamp(34px,5.5vw,80px);margin:16px 0 0}
 .constroi h2 .serif-it{color:var(--ciano-boop)}
 .cap-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(242,239,233,.1);border:1px solid rgba(242,239,233,.1)}
-.cap{background:var(--tinta-funda);padding:clamp(30px,4vw,52px);transition:background .35s}
-.cap:hover{background:#0a1230}
+.cap{background:var(--tinta-funda);padding:clamp(30px,4vw,52px);transition:background .35s,transform .4s cubic-bezier(.16,1,.3,1)}
+.cap:hover{background:#0a1230;transform:rotate(.35deg)}
 .cap .c-idx{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--ciano-boop)}
 .cap h3{font-family:var(--display);font-variation-settings:'wght' 800,'wdth' 112;text-transform:uppercase;font-size:clamp(26px,3.4vw,46px);letter-spacing:-.015em;margin:14px 0 16px}
 .cap p{font-size:15.5px;line-height:1.55;color:rgba(242,239,233,.7);margin:0 0 22px;max-width:40ch}
@@ -389,8 +403,8 @@ a.trilha{background:var(--off-white);padding:clamp(30px,4vw,56px) clamp(28px,4vw
 .proj:nth-child(2){background:linear-gradient(135deg,#0a1230,#11acc4)}
 .proj:nth-child(3){background:linear-gradient(135deg,#141b3a,#7e19e5)}
 .proj:nth-child(4){background:linear-gradient(135deg,var(--azul-eletrico),var(--ciano-boop))}
-.proj:hover{transform:translateY(-6px)}
-.proj .marca-agua{position:absolute;top:clamp(16px,2vw,28px);right:clamp(16px,2vw,28px);font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:6px 11px;border-radius:999px;background:rgba(242,239,233,.14);color:var(--off-white)}
+.proj:hover{transform:translateY(-6px) rotate(-.5deg)}
+.proj .marca-agua{position:absolute;top:clamp(16px,2vw,28px);right:clamp(16px,2vw,28px);font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:6px 11px;border-radius:999px;background:rgba(242,239,233,.14);color:var(--off-white);transform:rotate(-3deg)}
 .proj .p-tipo{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.8}
 .proj h3{font-family:var(--display);font-variation-settings:'wght' 800,'wdth' 112;text-transform:uppercase;font-size:clamp(22px,2.6vw,34px);margin:8px 0 0;letter-spacing:-.01em}
 .proj .p-desc{margin-top:8px;font-size:14px;line-height:1.5;opacity:.86;max-width:36ch}
@@ -470,8 +484,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
   .avulso h2{font-size:clamp(30px,9vw,46px)}
   /* em telas estreitas, max-width em "ch" pode encolher o contêiner
      abaixo do espaço real disponível e forçar quebra de palavra sem necessidade */
-  .hero-h1,.trilhas h2,.projetos h2,.cta-final h2{max-width:none}
-  .filosofia .bloco{max-width:none}
+  .hero-h1,.trilhas h2,.projetos h2,.cta-final h2,.filosofia h2{max-width:none}
 }
 </style>
 <body id="topo">
@@ -517,7 +530,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
 <!-- ===== HEADER ===== -->
 <header>
   <a class="logo-header" href="#topo" aria-label="Boop, ir para o topo">
-    <svg class="marca escuro-sobre-claro" data-marca viewBox="0 40 254 128" role="img" aria-label="Boop — logotipo da empresa que constrói o digital das marcas">
+    <svg class="marca escuro-sobre-claro" data-marca viewBox="0 40 254 128" role="img" aria-label="Boop: logotipo da empresa que constrói o digital das marcas">
       <g class="topete"><path d="M104.5 56.1644L102 65.2877C102 65.2877 108.5 64.7808 115.5 68.3288C122.5 71.8767 129 81 129 81C129 81 135.5 72.3836 138.5 70.3562C141.5 68.3288 152 65.2877 152 65.2877V58.1918L144.5 62.7534L148.5 52.6164L141 58.1918V52.6164L135 58.1918L133 44L119.5 60.726L115.5 48.5616L109 60.726L104.5 56.1644Z" fill="currentColor"/></g>
       <g class="olho" data-olho="esq"><path d="M133 96C133 113.673 118.897 128 101.5 128C84.103 128 70 113.673 70 96C70 78.3269 84.103 64 101.5 64C118.897 64 133 78.3269 133 96ZM87.01 96C87.01 104.13 93.4974 110.72 101.5 110.72C109.503 110.72 115.99 104.13 115.99 96C115.99 87.8704 109.503 81.28 101.5 81.28C93.4974 81.28 87.01 87.8704 87.01 96Z" fill="#FFFDF5"/><g class="globo"><path d="M113.5 96C113.5 102.627 108.127 108 101.5 108C94.8726 108 89.5 102.627 89.5 96C89.5 89.3726 94.8726 84 101.5 84C108.127 84 113.5 89.3726 113.5 96ZM95.98 96C95.98 99.0486 98.4514 101.52 101.5 101.52C104.549 101.52 107.02 99.0486 107.02 96C107.02 92.9514 104.549 90.48 101.5 90.48C98.4514 90.48 95.98 92.9514 95.98 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="104.5" cy="95" r="7" fill="#1A1A1A"/><circle cx="102" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g><path d="M133 96C133 113.673 118.897 128 101.5 128C84.103 128 70 113.673 70 96C70 78.3269 84.103 64 101.5 64C118.897 64 133 78.3269 133 96ZM87.01 96C87.01 104.13 93.4974 110.72 101.5 110.72C109.503 110.72 115.99 104.13 115.99 96C115.99 87.8704 109.503 81.28 101.5 81.28C93.4974 81.28 87.01 87.8704 87.01 96Z" fill="url(#boop-g0)"/><g class="globo"><path d="M113.5 96C113.5 102.627 108.127 108 101.5 108C94.8726 108 89.5 102.627 89.5 96C89.5 89.3726 94.8726 84 101.5 84C108.127 84 113.5 89.3726 113.5 96ZM95.98 96C95.98 99.0486 98.4514 101.52 101.5 101.52C104.549 101.52 107.02 99.0486 107.02 96C107.02 92.9514 104.549 90.48 101.5 90.48C98.4514 90.48 95.98 92.9514 95.98 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="104.5" cy="95" r="7" fill="#1A1A1A"/><circle cx="102" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g></g>
       <g class="olho" data-olho="dir"><path d="M187 96C187 113.673 173.121 128 156 128C138.879 128 125 113.673 125 96C125 78.3269 138.879 64 156 64C173.121 64 187 78.3269 187 96ZM141.74 96C141.74 104.13 148.124 110.72 156 110.72C163.876 110.72 170.26 104.13 170.26 96C170.26 87.8704 163.876 81.28 156 81.28C148.124 81.28 141.74 87.8704 141.74 96Z" fill="url(#boop-g1)"/><g class="globo"><path d="M168 96C168 102.627 162.627 108 156 108C149.373 108 144 102.627 144 96C144 89.3726 149.373 84 156 84C162.627 84 168 89.3726 168 96ZM150.48 96C150.48 99.0486 152.951 101.52 156 101.52C159.049 101.52 161.52 99.0486 161.52 96C161.52 92.9514 159.049 90.48 156 90.48C152.951 90.48 150.48 92.9514 150.48 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="159" cy="95" r="7" fill="#1A1A1A"/><circle cx="156.5" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g><path d="M187 96C187 113.673 173.121 128 156 128C138.879 128 125 113.673 125 96C125 78.3269 138.879 64 156 64C173.121 64 187 78.3269 187 96ZM141.74 96C141.74 104.13 148.124 110.72 156 110.72C163.876 110.72 170.26 104.13 170.26 96C170.26 87.8704 163.876 81.28 156 81.28C148.124 81.28 141.74 87.8704 141.74 96Z" fill="url(#boop-g2)"/><g class="globo"><path d="M168 96C168 102.627 162.627 108 156 108C149.373 108 144 102.627 144 96C144 89.3726 149.373 84 156 84C162.627 84 168 89.3726 168 96ZM150.48 96C150.48 99.0486 152.951 101.52 156 101.52C159.049 101.52 161.52 99.0486 161.52 96C161.52 92.9514 159.049 90.48 156 90.48C152.951 90.48 150.48 92.9514 150.48 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="159" cy="95" r="7" fill="#1A1A1A"/><circle cx="156.5" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g></g>
@@ -562,7 +575,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
   <div class="hero-grade" aria-hidden="true"></div>
   <div class="hero-eyebrow eyebrow rv"><span class="fio"></span><span class="label">Construímos o digital das marcas</span></div>
   <h1 class="hero-h1" id="heroH1" aria-label="Sua marca tem muito mais para construir."><span aria-hidden="true" id="heroH1Inner">Sua marca tem <span class="serif-it azul">muito mais</span> para construir.</span></h1>
-  <p class="hero-sub rv">Você traz o momento. A gente constrói o próximo passo. Conteúdo, site, e-commerce, experiências, automações — o que a sua marca precisar pra crescer no digital.</p>
+  <p class="hero-sub rv">Você traz o momento. A gente constrói o próximo passo. Conteúdo, site, e-commerce, experiências, automações: o que a sua marca precisar pra crescer no digital.</p>
   <div class="hero-acoes rv">
     <a class="btn" href="https://wa.me/5541988081126?text=Ol%C3%A1%21%20Quero%20dar%20um%20boop%20na%20minha%20marca."><span>Dar um boop</span><span class="seta" aria-hidden="true">→</span></a>
     <a class="btn btn-linha" href="#trilhas"><span>Qual o momento da minha marca?</span></a>
@@ -580,7 +593,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
   <div class="cab">
     <div class="eyebrow rv"><span class="fio"></span><span class="label">Cada marca é uma</span></div>
     <h2 class="display rv">Nenhuma marca<br>começa do <span class="serif-it" style="color:var(--azul-eletrico)">mesmo lugar</span>.</h2>
-    <p class="lead rv">Uma está começando agora. Outra já existe, mas o digital não acompanha o tamanho dela. Outra quer construir algo novo. Por isso a gente não chega com pacote pronto — chega entendendo onde a sua marca está.</p>
+    <p class="lead rv">Uma está começando agora. Outra já existe, mas o digital não acompanha o tamanho dela. Outra quer construir algo novo. Por isso a gente não chega com pacote pronto. Chega entendendo onde a sua marca está.</p>
   </div>
   <div class="momentos-grid">
     <div class="momento-card rv"><span class="n">Momento A</span><p>Tem uma marca pra colocar no mundo e não sabe por onde começar.</p></div>
@@ -597,7 +610,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
     <div class="eyebrow rv" style="color:var(--ciano-boop)"><span class="fio"></span><span class="label">A gente pensa assim</span></div>
     <h2 class="display rv">Não começamos<br>pelo que vamos<br><span class="serif-it">entregar</span>.</h2>
   </div>
-  <p class="apoio rv">Começamos entendendo o que precisa ser construído. A solução muda de marca pra marca — o processo, não. <span class="destaque">A gente não vende peças soltas. Constrói presença.</span></p>
+  <p class="apoio rv">Começamos entendendo o que precisa ser construído. A solução muda de marca pra marca. O processo, não. <span class="destaque">A gente não vende peças soltas. Constrói presença.</span></p>
 </section>
 
 <!-- ===== TRILHAS ===== -->
@@ -607,7 +620,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
       <div class="eyebrow rv"><span class="fio"></span><span class="label">Trilhas</span></div>
       <h2 class="display rv">Qual é o momento<br>da sua marca?</h2>
     </div>
-    <p class="nota rv">Não são pacotes fechados. São formas de entender onde você está — o que a gente constrói depois depende disso.</p>
+    <p class="nota rv">Não são pacotes fechados. São formas de entender onde você está. O que a gente constrói depois depende disso.</p>
   </div>
   <div class="trilha-lista">
     <a class="trilha rv" href="https://wa.me/5541988081126?text=Ol%C3%A1%21%20Quero%20dar%20um%20boop%20na%20minha%20marca.">
@@ -623,7 +636,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
       <span class="t-num">02</span>
       <div class="t-corpo">
         <h3 class="t-nome">Construir<span class="t-conceito">fazer o digital acompanhar a marca</span></h3>
-        <p class="t-desc">Pra marcas que já existem, com produto, clientes e história — mas cujo digital ainda não representa o tamanho do negócio.</p>
+        <p class="t-desc">Pra marcas que já existem, com produto, clientes e história, mas cujo digital ainda não representa o tamanho do negócio.</p>
         <div class="t-exemplos"><span class="chip">Reformulação de site</span><span class="chip">Conteúdo</span><span class="chip">Landing pages</span><span class="chip">E-commerce</span><span class="chip">Automações</span></div>
       </div>
       <span class="t-cta">Esse é meu momento <span class="seta" aria-hidden="true">→</span></span>
@@ -646,7 +659,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
     <div class="eyebrow rv"><span class="fio"></span><span class="label">O processo</span></div>
     <h2 class="display rv">Uma jornada de <span class="serif-it">construção</span>.</h2>
     <div class="processo-intro">
-      <p class="lead rv">A construção principal acontece ao longo de cerca de <strong><span data-contador="4">0</span> meses</strong>. Não é um contrato — é o tempo de entender, direcionar, construir e evoluir junto.</p>
+      <p class="lead rv">A construção principal acontece ao longo de cerca de <strong><span data-contador="4">0</span> meses</strong>. Não é um contrato. É o tempo de entender, direcionar, construir e evoluir junto.</p>
     </div>
   </div>
   <div class="etapas">
@@ -667,7 +680,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
     <div class="cap rv">
       <span class="c-idx">01</span>
       <h3>Conteúdo</h3>
-      <p>Marca que não é vista não é lembrada. A gente coloca a sua em movimento — da estratégia à edição.</p>
+      <p>Marca que não é vista não é lembrada. A gente coloca a sua em movimento, da estratégia à edição.</p>
       <div class="itens"><span class="item">Estratégia</span><span class="item">Roteiro</span><span class="item">Produção</span><span class="item">Gravação</span><span class="item">Edição</span><span class="item">Direção criativa</span></div>
     </div>
     <div class="cap rv">
@@ -698,10 +711,10 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
       <div class="eyebrow rv"><span class="fio"></span><span class="label">Construções</span></div>
       <h2 class="display rv">Algumas coisas<br>que já construímos.</h2>
     </div>
-    <p class="nota label rv" style="max-width:32ch;color:rgba(10,23,64,.55)">O primeiro é um projeto real. Os demais são exemplos ilustrativos — espaço reservado pros próximos cases.</p>
+    <p class="nota label rv" style="max-width:32ch;color:rgba(10,23,64,.55)">O primeiro é um projeto real. Os demais são exemplos ilustrativos. Espaço reservado pros próximos cases.</p>
   </div>
   <div class="proj-grid">
-    <a class="proj proj-foto rv" href="#" aria-label="Case Hapuck Scents — site institucional construído pela Boop">
+    <a class="proj proj-foto rv" href="#" aria-label="Case Hapuck Scents: site institucional construído pela Boop">
       <img class="p-img" src="assets/case-hapuck.jpg" alt="Site institucional da Hapuck Scents em laptop, construído pela Boop: página inicial com produto de aromaterapia em destaque" width="1400" height="933" loading="lazy" decoding="async">
       <div>
         <span class="p-tipo">Site institucional</span>
@@ -743,7 +756,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
     <div>
       <div class="eyebrow rv" style="color:var(--off-white)"><span class="fio"></span><span class="label">Projetos específicos</span></div>
       <h2 class="display rv">Já sabe o que <span class="serif-it">precisa</span>?</h2>
-      <p class="rv">Nem toda marca precisa começar uma jornada. Se você já sabe exatamente o que quer construir — um site, um e-commerce, uma automação — a gente também desenvolve projetos específicos.</p>
+      <p class="rv">Nem toda marca precisa começar uma jornada. Se você já sabe exatamente o que quer construir (um site, um e-commerce, uma automação), a gente também desenvolve projetos específicos.</p>
     </div>
     <div class="lado rv">
       <a class="btn btn-claro-sobre-escuro" href="https://wa.me/5541988081126?text=Ol%C3%A1%21%20Quero%20dar%20um%20boop%20na%20minha%20marca."><span>Quero construir isso</span><span class="seta" aria-hidden="true">→</span></a>
@@ -761,7 +774,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
     <details><summary>Preciso contratar uma jornada completa?<span class="ind" aria-hidden="true"></span></summary><div class="resposta">Não. A jornada existe pra marcas que querem construir de forma contínua, mas a Boop também desenvolve projetos específicos quando você já sabe o que precisa.</div></details>
     <details><summary>Vocês fazem somente sites?<span class="ind" aria-hidden="true"></span></summary><div class="resposta">Não. Site é uma das coisas que a gente constrói. Também criamos conteúdo, e-commerce, experiências digitais, automações e sistemas sob medida.</div></details>
     <details><summary>Posso contratar apenas conteúdo?<span class="ind" aria-hidden="true"></span></summary><div class="resposta">Pode. Conteúdo é uma construção por si só. A diferença é que, dentro de uma jornada, ele conversa com todo o resto da marca.</div></details>
-    <details><summary>Vocês fazem e-commerce?<span class="ind" aria-hidden="true"></span></summary><div class="resposta">Sim. A gente constrói lojas pra vender de verdade, com estrutura pensada pra conversão — não só pra existir.</div></details>
+    <details><summary>Vocês fazem e-commerce?<span class="ind" aria-hidden="true"></span></summary><div class="resposta">Sim. A gente constrói lojas pra vender de verdade, com estrutura pensada pra conversão, não só pra existir.</div></details>
     <details><summary>Vocês trabalham com automações?<span class="ind" aria-hidden="true"></span></summary><div class="resposta">Sim. Automações e integrações entram quando a marca precisa conectar ferramentas, ganhar tempo ou escalar processos.</div></details>
     <details><summary>Como vocês definem o que será construído?<span class="ind" aria-hidden="true"></span></summary><div class="resposta">A gente começa entendendo o momento da sua marca. A partir daí, direciona o que faz sentido construir. A solução muda de marca pra marca. O processo, não.</div></details>
   </div>
@@ -788,7 +801,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
 <footer id="contato">
   <div class="footer-topo">
     <div>
-      <svg class="marca claro-sobre-escuro" data-marca data-dormindo viewBox="0 40 254 128" role="img" aria-label="Boop — logotipo da empresa que constrói o digital das marcas">
+      <svg class="marca claro-sobre-escuro" data-marca data-dormindo viewBox="0 40 254 128" role="img" aria-label="Boop: logotipo da empresa que constrói o digital das marcas">
       <g class="topete"><path d="M104.5 56.1644L102 65.2877C102 65.2877 108.5 64.7808 115.5 68.3288C122.5 71.8767 129 81 129 81C129 81 135.5 72.3836 138.5 70.3562C141.5 68.3288 152 65.2877 152 65.2877V58.1918L144.5 62.7534L148.5 52.6164L141 58.1918V52.6164L135 58.1918L133 44L119.5 60.726L115.5 48.5616L109 60.726L104.5 56.1644Z" fill="currentColor"/></g>
       <g class="olho" data-olho="esq"><path d="M133 96C133 113.673 118.897 128 101.5 128C84.103 128 70 113.673 70 96C70 78.3269 84.103 64 101.5 64C118.897 64 133 78.3269 133 96ZM87.01 96C87.01 104.13 93.4974 110.72 101.5 110.72C109.503 110.72 115.99 104.13 115.99 96C115.99 87.8704 109.503 81.28 101.5 81.28C93.4974 81.28 87.01 87.8704 87.01 96Z" fill="#FFFDF5"/><g class="globo"><path d="M113.5 96C113.5 102.627 108.127 108 101.5 108C94.8726 108 89.5 102.627 89.5 96C89.5 89.3726 94.8726 84 101.5 84C108.127 84 113.5 89.3726 113.5 96ZM95.98 96C95.98 99.0486 98.4514 101.52 101.5 101.52C104.549 101.52 107.02 99.0486 107.02 96C107.02 92.9514 104.549 90.48 101.5 90.48C98.4514 90.48 95.98 92.9514 95.98 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="104.5" cy="95" r="7" fill="#1A1A1A"/><circle cx="102" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g><path d="M133 96C133 113.673 118.897 128 101.5 128C84.103 128 70 113.673 70 96C70 78.3269 84.103 64 101.5 64C118.897 64 133 78.3269 133 96ZM87.01 96C87.01 104.13 93.4974 110.72 101.5 110.72C109.503 110.72 115.99 104.13 115.99 96C115.99 87.8704 109.503 81.28 101.5 81.28C93.4974 81.28 87.01 87.8704 87.01 96Z" fill="url(#boop-g0)"/><g class="globo"><path d="M113.5 96C113.5 102.627 108.127 108 101.5 108C94.8726 108 89.5 102.627 89.5 96C89.5 89.3726 94.8726 84 101.5 84C108.127 84 113.5 89.3726 113.5 96ZM95.98 96C95.98 99.0486 98.4514 101.52 101.5 101.52C104.549 101.52 107.02 99.0486 107.02 96C107.02 92.9514 104.549 90.48 101.5 90.48C98.4514 90.48 95.98 92.9514 95.98 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="104.5" cy="95" r="7" fill="#1A1A1A"/><circle cx="102" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g></g>
       <g class="olho" data-olho="dir"><path d="M187 96C187 113.673 173.121 128 156 128C138.879 128 125 113.673 125 96C125 78.3269 138.879 64 156 64C173.121 64 187 78.3269 187 96ZM141.74 96C141.74 104.13 148.124 110.72 156 110.72C163.876 110.72 170.26 104.13 170.26 96C170.26 87.8704 163.876 81.28 156 81.28C148.124 81.28 141.74 87.8704 141.74 96Z" fill="url(#boop-g1)"/><g class="globo"><path d="M168 96C168 102.627 162.627 108 156 108C149.373 108 144 102.627 144 96C144 89.3726 149.373 84 156 84C162.627 84 168 89.3726 168 96ZM150.48 96C150.48 99.0486 152.951 101.52 156 101.52C159.049 101.52 161.52 99.0486 161.52 96C161.52 92.9514 159.049 90.48 156 90.48C152.951 90.48 150.48 92.9514 150.48 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="159" cy="95" r="7" fill="#1A1A1A"/><circle cx="156.5" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g><path d="M187 96C187 113.673 173.121 128 156 128C138.879 128 125 113.673 125 96C125 78.3269 138.879 64 156 64C173.121 64 187 78.3269 187 96ZM141.74 96C141.74 104.13 148.124 110.72 156 110.72C163.876 110.72 170.26 104.13 170.26 96C170.26 87.8704 163.876 81.28 156 81.28C148.124 81.28 141.74 87.8704 141.74 96Z" fill="url(#boop-g2)"/><g class="globo"><path d="M168 96C168 102.627 162.627 108 156 108C149.373 108 144 102.627 144 96C144 89.3726 149.373 84 156 84C162.627 84 168 89.3726 168 96ZM150.48 96C150.48 99.0486 152.951 101.52 156 101.52C159.049 101.52 161.52 99.0486 161.52 96C161.52 92.9514 159.049 90.48 156 90.48C152.951 90.48 150.48 92.9514 150.48 96Z" fill="#FFFDF5"/><g class="pupila"><circle cx="159" cy="95" r="7" fill="#1A1A1A"/><circle cx="156.5" cy="92.5" r="2.5" fill="#FFFDF5"/></g></g></g>
