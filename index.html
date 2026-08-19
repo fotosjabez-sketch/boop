@@ -262,15 +262,8 @@ body.menu-aberto{overflow:hidden}
 @keyframes corre{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
 .hero-grade{position:absolute;inset:0;opacity:.7;background-image:linear-gradient(rgba(10,23,64,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(10,23,64,.05) 1px,transparent 1px);background-size:64px 64px;z-index:0}
 .hero>*{position:relative;z-index:1}
-.hero .hero-foto{position:absolute;top:0;right:0;bottom:0;z-index:0;width:clamp(300px,36vw,620px);overflow:hidden;display:none}
-.hero .hero-foto img{width:100%;height:100%;object-fit:cover;object-position:58% 40%;display:block}
-.hero .hero-foto::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--off-white) 0%,rgba(242,239,233,0) 18%);pointer-events:none}
 @media (max-width:900px){
   .hero-grade{background-size:44px 44px}
-}
-@media (min-width:1101px){
-  .hero .hero-foto{display:block}
-  .hero{padding-right:calc(var(--gutter) + clamp(260px,30vw,540px))}
 }
 
 /* ============================================================
@@ -311,9 +304,6 @@ body.menu-aberto{overflow:hidden}
 .filosofia h2 .serif-it{color:var(--ciano-boop)}
 .filosofia .apoio{margin-top:clamp(34px,5vh,54px);max-width:46ch;font-size:clamp(17px,1.5vw,21px);line-height:1.6;color:rgba(242,239,233,.82)}
 .filosofia .destaque{color:var(--ciano-boop)}
-.filosofia .filosofia-foto{position:absolute;z-index:1;top:50%;right:clamp(24px,6vw,90px);transform:translateY(-52%) rotate(2.5deg);width:clamp(190px,19vw,290px);box-shadow:0 30px 60px -18px rgba(0,0,0,.5);background:var(--off-white);padding:7px 7px 22px}
-.filosofia .filosofia-foto img{width:100%;height:auto;display:block}
-@media (max-width:1000px){.filosofia .filosofia-foto{display:none}}
 
 /* ============================================================
    TRILHAS
@@ -352,12 +342,6 @@ a.trilha{background:var(--off-white);padding:clamp(30px,4vw,56px) clamp(28px,4vw
 }
 </style>
 <style>
-/* ============================================================
-   FOTO FAIXA (respiro editorial entre seções claras)
-   ============================================================ */
-.foto-faixa{height:clamp(220px,34vw,420px);overflow:hidden;border-top:1px solid var(--linha);border-bottom:1px solid var(--linha)}
-.foto-faixa img{width:100%;height:100%;object-fit:cover;display:block}
-
 /* ============================================================
    PROCESSO (4 etapas)
    ============================================================ */
@@ -471,8 +455,6 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
 .footer-topo{display:flex;flex-wrap:wrap;gap:clamp(30px,5vw,80px);justify-content:space-between}
 .footer-topo .marca{height:70px;width:auto}
 .footer-frase{margin-top:16px;font-family:var(--serif);font-style:italic;font-size:clamp(16px,1.4vw,20px);color:rgba(242,239,233,.6);max-width:24ch}
-.footer-foto{width:84px;margin-top:24px;transform:rotate(-4deg)}
-.footer-foto img{width:100%;height:auto;display:block;border:4px solid rgba(242,239,233,.92)}
 .footer-col{display:grid;gap:11px;align-content:start}
 .footer-col .tit{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.5;margin-bottom:4px}
 .footer-col a,.footer-col span{font-size:clamp(15px,1.3vw,18px);color:rgba(242,239,233,.85)}
@@ -587,7 +569,6 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
 <!-- ===== HERO ===== -->
 <section class="hero" id="hero">
   <div class="hero-grade" aria-hidden="true"></div>
-  <div class="hero-foto" aria-hidden="true"><img src="assets/foto-olho-hero.jpg" alt="" width="1100" height="1370" decoding="async"></div>
   <div class="hero-eyebrow eyebrow rv"><span class="fio"></span><span class="label">Construímos o digital das marcas</span></div>
   <h1 class="hero-h1" id="heroH1" aria-label="Sua marca tem muito mais para construir."><span aria-hidden="true" id="heroH1Inner">Sua marca tem <span class="serif-it azul">muito mais</span> para construir.</span></h1>
   <p class="hero-sub rv">Você traz o momento. A gente constrói o próximo passo. Conteúdo, site, e-commerce, experiências, automações: o que a sua marca precisar pra crescer no digital.</p>
@@ -626,7 +607,6 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
     <h2 class="display rv">Não começamos<br>pelo que vamos<br><span class="serif-it">entregar</span>.</h2>
   </div>
   <p class="apoio rv">Começamos entendendo o que precisa ser construído. A solução muda de marca pra marca. O processo, não. <span class="destaque">A gente não vende peças soltas. Constrói presença.</span></p>
-  <div class="filosofia-foto" aria-hidden="true"><img src="assets/foto-caderno.jpg" alt="" width="900" height="1350" loading="lazy" decoding="async"></div>
 </section>
 
 <!-- ===== TRILHAS ===== -->
@@ -667,11 +647,6 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
       <span class="t-cta">Esse é meu momento <span class="seta" aria-hidden="true">→</span></span>
     </a>
   </div>
-</section>
-
-<!-- ===== FOTO FAIXA ===== -->
-<section class="foto-faixa" aria-hidden="true">
-  <img src="assets/foto-estrada.jpg" alt="" width="1752" height="1168" loading="lazy" decoding="async">
 </section>
 
 <!-- ===== PROCESSO ===== -->
@@ -829,7 +804,6 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
       <g class="letra"><path d="M202.24 74.04C204.08 70.92 206.68 68.44 210.04 66.6C213.4 64.76 217.36 63.84 221.92 63.84C227.28 63.84 232.12 65.24 236.44 68.04C240.84 70.84 244.28 74.84 246.76 80.04C249.32 85.24 250.6 91.32 250.6 98.28C250.6 105.24 249.32 111.36 246.76 116.64C244.28 121.84 240.84 125.84 236.44 128.64C232.12 131.44 227.28 132.84 221.92 132.84C217.36 132.84 213.4 131.92 210.04 130.08C206.76 128.24 204.16 125.76 202.24 122.64V164.16H178.72V64.68H202.24V74.04ZM226.72 98.28C226.72 93.88 225.52 90.48 223.12 88.08C220.8 85.6 217.92 84.36 214.48 84.36C211.04 84.36 208.12 85.6 205.72 88.08C203.4 90.56 202.24 93.96 202.24 98.28C202.24 102.68 203.4 106.12 205.72 108.6C208.12 111.08 211.04 112.32 214.48 112.32C217.92 112.32 220.8 111.08 223.12 108.6C225.52 106.04 226.72 102.6 226.72 98.28Z" fill="currentColor"/><path d="M30.24 74.04C32.08 70.84 34.68 68.36 38.04 66.6C41.4 64.76 45.36 63.84 49.92 63.84C55.28 63.84 60.12 65.2399 64.44 68.0399C68.84 70.8399 72.28 74.8399 74.76 80.0399C77.32 85.2399 78.6 91.3199 78.6 98.2799C78.6 105.24 77.32 111.36 74.76 116.64C72.28 121.84 68.84 125.84 64.44 128.64C60.12 131.44 55.28 132.84 49.92 132.84C45.36 132.84 41.4 131.96 38.04 130.2C34.68 128.36 32.08 125.84 30.24 122.64V132H6.71997V43.2H30.24V74.04ZM54.72 98.2799C54.72 93.8799 53.52 90.4799 51.12 88.0799C48.8 85.5999 45.92 84.36 42.48 84.36C39.04 84.36 36.12 85.5999 33.72 88.0799C31.4 90.56 30.24 93.9599 30.24 98.2799C30.24 102.68 31.4 106.12 33.72 108.6C36.12 111.08 39.04 112.32 42.48 112.32C45.92 112.32 48.8 111.08 51.12 108.6C53.52 106.04 54.72 102.6 54.72 98.2799Z" fill="currentColor"/></g>
     </svg>
       <p class="footer-frase">Você traz o momento. A gente constrói o próximo passo.</p>
-      <div class="footer-foto" aria-hidden="true"><img src="assets/foto-olho.jpg" alt="" width="676" height="842" loading="lazy" decoding="async"></div>
     </div>
     <div class="footer-col">
       <span class="tit">Fale com a gente</span>
