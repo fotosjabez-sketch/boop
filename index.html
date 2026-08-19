@@ -262,8 +262,15 @@ body.menu-aberto{overflow:hidden}
 @keyframes corre{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
 .hero-grade{position:absolute;inset:0;opacity:.7;background-image:linear-gradient(rgba(10,23,64,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(10,23,64,.05) 1px,transparent 1px);background-size:64px 64px;z-index:0}
 .hero>*{position:relative;z-index:1}
+.hero .hero-foto{position:absolute;top:0;right:0;bottom:0;z-index:0;width:clamp(300px,36vw,620px);overflow:hidden;display:none}
+.hero .hero-foto img{width:100%;height:100%;object-fit:cover;object-position:58% 40%;display:block}
+.hero .hero-foto::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--off-white) 0%,rgba(242,239,233,0) 18%);pointer-events:none}
 @media (max-width:900px){
   .hero-grade{background-size:44px 44px}
+}
+@media (min-width:1101px){
+  .hero .hero-foto{display:block}
+  .hero{padding-right:calc(var(--gutter) + clamp(260px,30vw,540px))}
 }
 
 /* ============================================================
@@ -356,9 +363,6 @@ a.trilha{background:var(--off-white);padding:clamp(30px,4vw,56px) clamp(28px,4vw
    ============================================================ */
 .processo{background:var(--off-white-2);padding:clamp(90px,14vh,180px) var(--gutter)}
 .processo .cab{max-width:52ch;margin-bottom:clamp(50px,8vh,88px)}
-.processo-foto{position:absolute;top:clamp(4px,1vw,26px);right:var(--gutter);width:clamp(180px,16vw,250px);transform:rotate(-2deg);filter:drop-shadow(0 26px 40px rgba(10,23,64,.16))}
-.processo-foto img{width:100%;height:auto;display:block}
-@media (max-width:1100px){.processo-foto{display:none}}
 .processo h2{font-size:clamp(34px,5.5vw,76px);margin:16px 0 0}
 .processo h2 .serif-it{color:var(--azul-eletrico)}
 .processo .lead{margin-top:24px;font-size:clamp(16px,1.4vw,19px);line-height:1.55;color:rgba(10,23,64,.7);max-width:44ch}
@@ -583,6 +587,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
 <!-- ===== HERO ===== -->
 <section class="hero" id="hero">
   <div class="hero-grade" aria-hidden="true"></div>
+  <div class="hero-foto" aria-hidden="true"><img src="assets/foto-olho-hero.jpg" alt="" width="1100" height="1370" decoding="async"></div>
   <div class="hero-eyebrow eyebrow rv"><span class="fio"></span><span class="label">Construímos o digital das marcas</span></div>
   <h1 class="hero-h1" id="heroH1" aria-label="Sua marca tem muito mais para construir."><span aria-hidden="true" id="heroH1Inner">Sua marca tem <span class="serif-it azul">muito mais</span> para construir.</span></h1>
   <p class="hero-sub rv">Você traz o momento. A gente constrói o próximo passo. Conteúdo, site, e-commerce, experiências, automações: o que a sua marca precisar pra crescer no digital.</p>
@@ -671,7 +676,6 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
 
 <!-- ===== PROCESSO ===== -->
 <section class="processo" id="processo">
-  <div class="processo-foto" aria-hidden="true"><img src="assets/foto-telefone.png" alt="" width="640" height="588" loading="lazy" decoding="async"></div>
   <div class="cab">
     <div class="eyebrow rv"><span class="fio"></span><span class="label">O processo</span></div>
     <h2 class="display rv">Uma jornada de <span class="serif-it">construção</span>.</h2>
@@ -728,10 +732,9 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
       <div class="eyebrow rv"><span class="fio"></span><span class="label">Construções</span></div>
       <h2 class="display rv">Algumas coisas<br>que já construímos.</h2>
     </div>
-    <p class="nota label rv" style="max-width:32ch;color:rgba(10,23,64,.55)">O primeiro é um projeto real. Os demais são exemplos ilustrativos. Espaço reservado pros próximos cases.</p>
   </div>
   <div class="proj-grid">
-    <a class="proj proj-foto rv" href="#" aria-label="Case Hapuck Scents: site institucional construído pela Boop">
+    <a class="proj proj-foto rv" href="http://hapuck.com.br/" target="_blank" rel="noopener" aria-label="Case Hapuck Scents: site institucional construído pela Boop (abre em nova aba)">
       <img class="p-img" src="assets/case-hapuck.jpg" alt="Site institucional da Hapuck Scents em laptop, construído pela Boop: página inicial com produto de aromaterapia em destaque" width="1400" height="933" loading="lazy" decoding="async">
       <div>
         <span class="p-tipo">Site institucional</span>
@@ -740,7 +743,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
       </div>
     </a>
     <div class="proj rv">
-      <span class="marca-agua">Exemplo ilustrativo</span>
+      <span class="marca-agua">Em breve</span>
       <div>
         <span class="p-tipo">E-commerce</span>
         <h3>Loja de produtos autorais</h3>
@@ -748,7 +751,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
       </div>
     </div>
     <div class="proj rv">
-      <span class="marca-agua">Exemplo ilustrativo</span>
+      <span class="marca-agua">Em breve</span>
       <div>
         <span class="p-tipo">Conteúdo</span>
         <h3>Marca de serviços</h3>
@@ -756,7 +759,7 @@ footer{background:var(--preto);color:var(--off-white);padding:clamp(60px,9vh,100
       </div>
     </div>
     <div class="proj rv">
-      <span class="marca-agua">Exemplo ilustrativo</span>
+      <span class="marca-agua">Em breve</span>
       <div>
         <span class="p-tipo">Experiência digital</span>
         <h3>Lançamento de produto</h3>
